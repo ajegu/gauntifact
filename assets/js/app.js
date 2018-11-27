@@ -16,6 +16,7 @@ global.$ = global.jQuery = $
 require('bootstrap')
 require('popper.js')
 require('@fortawesome/fontawesome-free/js/all')
+require('bootstrap4-notify')
 
 const Ladda = require('ladda')
 global.Ladda = Ladda
@@ -26,6 +27,6 @@ import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/pu
 Routing.setRoutingData(routes);
 global.Routing = Routing
 
-require('./dashboard/gauntlet/events')
+require('./dashboard/gauntlet.events')
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js')
+// console.log('Hello Webpack Encore! Edit me in assets/js/app.js')
