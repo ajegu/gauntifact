@@ -1,6 +1,8 @@
 title.home: Hello, world!
 title.login: Sign In
 title.register: Sign Up
+title.add_gauntlet: Add a gauntlet
+
 
 link.dashboard: Dashboard
 
@@ -15,3 +17,4 @@ btn.logout: Sign out
 btn.register: Sign up
 btn.submit: Submit
 btn.add_gauntlet: Add a gauntlet
+btn.close: Close

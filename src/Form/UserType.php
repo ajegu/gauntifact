@@ -26,6 +26,9 @@ class UserType extends AbstractType
                     new Length([
                         'max' => 50
                     ])
+                ],
+                'attr' => [
+                    'autofocus' => 'autofocus'
                 ]
             ])
             ->add('email', EmailType::class, [

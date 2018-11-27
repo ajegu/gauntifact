@@ -1,6 +1,7 @@
 title.home: Bonjour le monde !
 title.login: Connectez-vous
 title.register: Création de votre compte
+title.add_gauntlet: Ajout d'un affrontement
 
 link.dashboard: Tableau de bord
 
@@ -15,3 +16,4 @@ btn.logout: Se déconnecter
 btn.register: Créer un compte
 btn.submit: Valider
 btn.add_gauntlet: Ajouter un affrontement
+btn.close: Fermer

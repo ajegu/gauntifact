@@ -1,7 +1,8 @@
 /**
  * Affiche le formulaire de création
  */
-export function showAdd() {
+export function showAdd()
+{
     const l = Ladda.create( document.querySelector('#btn-show-add-gauntlet') )
     l.start()
 
@@ -12,6 +13,9 @@ export function showAdd() {
             $('#modal-add-gauntlet').remove()
             $('body').append(data)
             $('#modal-add-gauntlet').modal('show')
+            $('#modal-add-gauntlet').on('shown.bs.modal', function () {
+                $('input[autofocus]').trigger('focus')
+            })
         },
         error: function() {
             l.stop()
@@ -42,3 +46,13 @@ export function showAdd() {
     })
 }
 
+/**
+ * Création d'un affrontement
+ * @param EventTarget e
+ */
+export function add(e)
+{
+    e.preventDefault();
+
+    console.log('soumission du formulaire')
+}

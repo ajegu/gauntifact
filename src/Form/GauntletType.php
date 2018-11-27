@@ -30,6 +30,9 @@ class GauntletType extends AbstractType
                 'label' => 'label.deck_code',
                 'constraints' => [
                     new NotBlank()
+                ],
+                'attr' => [
+                    'autofocus' => 'autofocus'
                 ]
             ])
             ->add('submit', SubmitType::class, [

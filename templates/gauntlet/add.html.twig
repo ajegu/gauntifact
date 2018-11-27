@@ -1,18 +1,3 @@
-{#{% extends 'base.html.twig' %}#}
-
-{#{% block title %}{% endblock %}#}
-
-{#{% block body %}#}
-    {#<div class="card mx-auto col-md-4 my-5">#}
-        {#<div class="card-body">#}
-            {#<h5 class="card-title"></h5>#}
-            {#{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}#}
-            {#{{ form_widget(form) }}#}
-            {#{{ form_end(form) }}#}
-        {#</div>#}
-    {#</div>#}
-{#{% endblock %}#}
-
 <div class="modal fade" id="modal-add-gauntlet" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
@@ -24,13 +9,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                {{ form_widget(form) }}
+                {{ form_row(form.type) }}
+                {{ form_row(form.deckCode) }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'btn.close'|trans }}</button>
+                {#<button type="button" class="btn btn-primary">Save changes</button>#}
+                {{ form_widget(form.submit) }}
             </div>
         </div>
         {{ form_end(form) }}
     </div>
 </div>
+
+{{ encore_entry_script_tags('gauntlet') }}
