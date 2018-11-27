@@ -7,6 +7,8 @@ link.dashboard: Tableau de bord
 label.email: Email
 label.password: Mot de passe
 label.pseudo: Pseudo
+label.gauntletType: Type d'affrontement
+label.deck_code: Deck code
 
 btn.login: Se connecter
 btn.logout: Se déconnecter

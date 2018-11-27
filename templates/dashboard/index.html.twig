@@ -4,12 +4,10 @@
 
 {% block body %}
     <div class="row my-2 mx-2">
-        <div class="col-md-2">
-            <ul class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active">
-                    <i class="fas fa-plus"></i> {{ 'btn.add_gauntlet'|trans }}
-                </a>
-            </ul>
+        <div class="col-md-4">
+            <button id="btn-show-add-gauntlet" class="btn btn-primary">
+                <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_gauntlet'|trans }}</span>
+            </button>
         </div>
     </div>
 {% endblock %}

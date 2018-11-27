@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -37,6 +39,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=50)
      */
     private $pseudo;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Gauntlet", mappedBy="user", orphanRemoval=true)
+     */
+    private $gauntlets;
+
+    public function __construct()
+    {
+        $this->gauntlets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -124,6 +136,37 @@ class User implements UserInterface
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Gauntlet[]
+     */
+    public function getGauntlets(): Collection
+    {
+        return $this->gauntlets;
+    }
+
+    public function addGauntlet(Gauntlet $gauntlet): self
+    {
+        if (!$this->gauntlets->contains($gauntlet)) {
+            $this->gauntlets[] = $gauntlet;
+            $gauntlet->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGauntlet(Gauntlet $gauntlet): self
+    {
+        if ($this->gauntlets->contains($gauntlet)) {
+            $this->gauntlets->removeElement($gauntlet);
+            // set the owning side to null (unless already changed)
+            if ($gauntlet->getUser() === $this) {
+                $gauntlet->setUser(null);
+            }
+        }
 
         return $this;
     }

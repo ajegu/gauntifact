@@ -7,6 +7,8 @@ link.dashboard: Dashboard
 label.email: Email
 label.password: Password
 label.pseudo: Pseudo
+label.gauntletType: Gauntlet type
+label.deck_code: Deck code
 
 btn.login: Sign in
 btn.logout: Sign out
