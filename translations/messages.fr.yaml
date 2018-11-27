@@ -2,6 +2,8 @@ title.home: Bonjour le monde !
 title.login: Connectez-vous
 title.register: Création de votre compte
 
+link.dashboard: Tableau de bord
+
 label.email: Email
 label.password: Mot de passe
 label.pseudo: Pseudo
@@ -10,3 +12,4 @@ btn.login: Se connecter
 btn.logout: Se déconnecter
 btn.register: Créer un compte
 btn.submit: Valider
+btn.add_gauntlet: Ajouter un affrontement

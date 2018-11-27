@@ -2,6 +2,8 @@ title.home: Hello, world!
 title.login: Sign In
 title.register: Sign Up
 
+link.dashboard: Dashboard
+
 label.email: Email
 label.password: Password
 label.pseudo: Pseudo
@@ -10,3 +12,4 @@ btn.login: Sign in
 btn.logout: Sign out
 btn.register: Sign up
 btn.submit: Submit
+btn.add_gauntlet: Add a gauntlet
