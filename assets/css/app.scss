@@ -1,6 +1,12 @@
 $body-bg: #6c757d;
 $body-color: #111;
 
+label.required:after {
+    color: #cb2431;
+    content: "*";
+    padding-left: 5px;
+}
+
 @import "~bootstrap/scss/bootstrap";
 
 html {
@@ -11,3 +17,4 @@ html {
         font-size: 16px;
     }
 }
+

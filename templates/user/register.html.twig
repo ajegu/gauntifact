@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="card mx-auto col-md-4 my-5">
+        <div class="card-body">
+            <h5 class="card-title">{{ 'title.register'|trans }}</h5>
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
