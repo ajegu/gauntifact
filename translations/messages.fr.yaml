@@ -17,3 +17,7 @@ btn.register: Créer un compte
 btn.submit: Valider
 btn.add_gauntlet: Ajouter un affrontement
 btn.close: Fermer
+
+success.add_gauntlet: L'affrontement a bien été crée !
+
+validator.deck_code_not_valid: Le code du deck n'est pas valide.

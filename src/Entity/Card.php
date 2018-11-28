@@ -154,6 +154,11 @@ class Card implements Translatable
      */
     private $locale;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeckCard", mappedBy="card", orphanRemoval=true)
+     */
+    private $deckCards;
+
     public function __construct()
     {
         $this->attack = 0;
@@ -169,6 +174,7 @@ class Card implements Translatable
         $this->crossLane = false;
         $this->quick = false;
         $this->refs = new ArrayCollection();
+        $this->deckCards = new ArrayCollection();
     }
 
     /**
@@ -501,6 +507,37 @@ class Card implements Translatable
     {
         if ($this->refs->contains($ref)) {
             $this->refs->removeElement($ref);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DeckCard[]
+     */
+    public function getDeckCards(): Collection
+    {
+        return $this->deckCards;
+    }
+
+    public function addDeckCard(DeckCard $deckCard): self
+    {
+        if (!$this->deckCards->contains($deckCard)) {
+            $this->deckCards[] = $deckCard;
+            $deckCard->setCard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeckCard(DeckCard $deckCard): self
+    {
+        if ($this->deckCards->contains($deckCard)) {
+            $this->deckCards->removeElement($deckCard);
+            // set the owning side to null (unless already changed)
+            if ($deckCard->getCard() === $this) {
+                $deckCard->setCard(null);
+            }
         }
 
         return $this;

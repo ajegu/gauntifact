@@ -22,11 +22,13 @@ const Ladda = require('ladda')
 global.Ladda = Ladda
 
 const routes = require('../../public/js/fos_js_routes.json');
-import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js'
 
-Routing.setRoutingData(routes);
+Routing.setRoutingData(routes)
 global.Routing = Routing
 
-require('./dashboard/gauntlet.events')
+const Utils = require('./utils');
+global.Utils = Utils
 
-// console.log('Hello Webpack Encore! Edit me in assets/js/app.js')
+require('./dashboard/gauntlet')
+

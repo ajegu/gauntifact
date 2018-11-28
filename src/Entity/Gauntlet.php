@@ -53,6 +53,17 @@ class Gauntlet
      */
     private $type;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Deck", inversedBy="gauntlets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $deck;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $number;
+
     public function __construct()
     {
         $this->status = self::STATUS_CURRENT;
@@ -119,6 +130,30 @@ class Gauntlet
     public function setType(?GauntletType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getDeck(): ?Deck
+    {
+        return $this->deck;
+    }
+
+    public function setDeck(?Deck $deck): self
+    {
+        $this->deck = $deck;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }

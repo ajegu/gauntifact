@@ -10,8 +10,11 @@
     <body>
         {% include 'menu.html.twig' %}
         {% block body %}{% endblock %}
+
+        {{ encore_entry_script_tags('app') }}
+
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+
         {% endblock %}
     </body>
 </html>

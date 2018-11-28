@@ -18,3 +18,6 @@ btn.register: Sign up
 btn.submit: Submit
 btn.add_gauntlet: Add a gauntlet
 btn.close: Close
+
+success.add_gauntlet: The gauntlet has been created successful !
+validator.deck_code_not_valid: The deck code is not valid.

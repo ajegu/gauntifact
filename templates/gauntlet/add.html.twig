@@ -22,4 +22,8 @@
     </div>
 </div>
 
-{{ encore_entry_script_tags('gauntlet') }}
+<script type="application/javascript">
+    $(document).ready(function() {
+        $('form[name="gauntlet"]').submit(addGauntlet)
+    })
+</script>

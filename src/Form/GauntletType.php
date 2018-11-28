@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Gauntlet;
+use App\Validator\Deck;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -29,7 +30,8 @@ class GauntletType extends AbstractType
                 'mapped' => false,
                 'label' => 'label.deck_code',
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank(),
+                    new Deck()
                 ],
                 'attr' => [
                     'autofocus' => 'autofocus'
