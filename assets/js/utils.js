@@ -51,7 +51,7 @@ export function notify(config)
  * {
  *     btnSelector,
  *     modalSelector,
- *     route
+ *     url
  * }
  */
 export function showFormModal(config)
@@ -59,8 +59,7 @@ export function showFormModal(config)
     const l = Ladda.create( document.querySelector(config.btnSelector) )
     l.start()
 
-    const url = Routing.generate(config.route);
-    $.ajax(url, {
+    $.ajax(config.url, {
         success: function(data) {
             l.stop()
 
@@ -89,9 +88,51 @@ export function showFormModal(config)
     })
 }
 
-export function submitFormModal()
+/**
+ *
+ * @param config
+ * {
+ *     url,
+ *     currentTarget,
+ *     modalSelector,
+ *     callback
+ * }
+ */
+export function submitFormModal(config)
 {
+    const l = Ladda.create( document.querySelector('button[type="submit"]') )
+    l.start()
 
+    const $form = $(config.currentTarget)
+
+    $.ajax(config.url, {
+        method: 'post',
+        data: $form.serialize(),
+        success: function(data) {
+            l.stop()
+            if (data.success) {
+                $(config.modalSelector).modal('hide')
+
+                Utils.notify({
+                    type: 'success',
+                    message: data.message
+                });
+
+                config.callback(data)
+
+            } else {
+                $(config.modalSelector + ' .modal-body').replaceWith($('.modal-body', data))
+            }
+        },
+        error: function() {
+            l.stop()
+
+            Utils.notify({
+                type: 'danger',
+                message: 'Server error'
+            })
+        }
+    })
 }
 
 export function redirect (url) {

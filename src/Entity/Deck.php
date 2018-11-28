@@ -33,10 +33,21 @@ class Deck
      */
     private $gauntlets;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $code;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="opposingDeck", orphanRemoval=true)
+     */
+    private $games;
+
     public function __construct()
     {
         $this->deckCards = new ArrayCollection();
         $this->gauntlets = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +123,49 @@ class Deck
             // set the owning side to null (unless already changed)
             if ($gauntlet->getDeck() === $this) {
                 $gauntlet->setDeck(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Game[]
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games[] = $game;
+            $game->setOpposingDeck($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->contains($game)) {
+            $this->games->removeElement($game);
+            // set the owning side to null (unless already changed)
+            if ($game->getOpposingDeck() === $this) {
+                $game->setOpposingDeck(null);
             }
         }
 

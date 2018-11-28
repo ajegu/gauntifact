@@ -45,6 +45,7 @@ class DeckService
         $deckData = CArtifactDeckDecoder::ParseDeck($code);
 
         $deck = new Deck();
+        $deck->setCode($deckCode);
 
         if (trim($deckData['name']) !== '') {
             $deck->setName($deckData['name']);

@@ -4,9 +4,11 @@
  */
 window.showAddGauntlet = function()
 {
+    const url = Routing.generate('app_gauntlet_add');
+
     Utils.showFormModal({
         btnSelector: '#btn-show-add-gauntlet',
-        route: 'app_gauntlet_add',
+        url: url,
         modalSelector: '#modal-add-gauntlet'
     });
 }
@@ -19,41 +21,13 @@ window.addGauntlet = function(e)
 {
     e.preventDefault()
 
-
-    const l = Ladda.create( document.querySelector('button[type="submit"]') )
-    l.start()
-
-    const $form = $(e.currentTarget)
-
-    const url = Routing.generate('app_gauntlet_add')
-
-    $.ajax(url, {
-        method: 'post',
-        data: $form.serialize(),
-        success: function(data) {
-            l.stop()
-            if (data.success) {
-                $('#modal-add-gauntlet').modal('hide')
-
-                Utils.notify({
-                    type: 'success',
-                    message: data.message
-                });
-
-                const url = Routing.generate('app_gauntlet_show', {id: data.gauntletId})
-                Utils.redirect(url)
-
-            } else {
-               $('#modal-add-gauntlet .modal-body').replaceWith($('.modal-body', data))
-            }
-        },
-        error: function() {
-            l.stop()
-
-            Utils.notify({
-                type: 'danger',
-                message: 'Server error'
-            })
+    Utils.submitFormModal({
+        url: Routing.generate('app_gauntlet_add'),
+        currentTarget: e.currentTarget,
+        modalSelector: '#modal-add-gauntlet',
+        callback: function(data) {
+            const url = Routing.generate('app_gauntlet_show', {id: data.gauntletId})
+            Utils.redirect(url)
         }
     })
 }

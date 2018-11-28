@@ -15,6 +15,9 @@ label.deck_code: Deck code
 label.gauntlet: Affrontement
 label.your_deck: Votre deck
 label.your_games: Vos games
+label.gauntlet_current: En cours
+label.gauntlet_finish: Terminé
+label.gauntlet_conceded: Abandonné
 
 btn.login: Se connecter
 btn.logout: Se déconnecter
@@ -27,7 +30,3 @@ btn.add_game: Ajouter une game
 success.add_gauntlet: L'affrontement a bien été crée !
 
 validator.deck_code_not_valid: Le code du deck n'est pas valide.
-
-CURRENT: En cours
-FINISH: Terminé
-CONCEDED: Abandonné

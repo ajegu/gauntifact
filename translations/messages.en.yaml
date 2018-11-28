@@ -15,6 +15,9 @@ label.deck_code: Deck code
 label.gauntlet: Gauntlet
 label.your_deck: Your deck
 label.your_games: Your games
+label.gauntlet_current: Current
+label.gauntlet_finish: Finish
+label.gauntlet_conceded: Conceded
 
 btn.login: Sign in
 btn.logout: Sign out
@@ -27,6 +30,3 @@ btn.add_game: Add game
 success.add_gauntlet: The gauntlet has been created successful !
 validator.deck_code_not_valid: The deck code is not valid.
 
-CURRENT: Current
-FINISH: Finish
-CONCEDED: Conceded

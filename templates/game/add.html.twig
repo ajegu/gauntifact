@@ -1,15 +1,15 @@
-<div class="modal fade" id="modal-add-gauntlet" tabindex="-1" role="dialog">
+<div class="modal fade" id="modal-add-game" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ 'title.add_gauntlet'|trans }}</h5>
+                <h5 class="modal-title">{{ 'title.add_game'|trans }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                {{ form_row(form.type) }}
+                {{ form_row(form.status) }}
                 {{ form_row(form.deckCode) }}
             </div>
             <div class="modal-footer">
@@ -23,6 +23,6 @@
 
 <script type="application/javascript">
     $(document).ready(function() {
-        $('form[name="gauntlet"]').submit(addGauntlet)
+        $('form[name="game"]').submit(addGame)
     })
 </script>

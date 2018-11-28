@@ -7,7 +7,13 @@
         <div class="card-header">
             <h2>
                 {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }}
-                <span class="badge badge-primary float-right">{{ gauntlet.status|trans }}</span>
+                {% if gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CURRENT') %}
+                    <span class="badge badge-warning float-right">{{ 'label.gauntlet_current'|trans }}</span>
+                {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_FINISH') %}
+                    <span class="badge badge-success float-right">{{ 'label.gauntlet_current'|trans }}</span>
+                {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CONCEDED') %}
+                    <span class="badge badge-danger float-right">{{ 'label.gauntlet_current'|trans }}</span>
+                {% endif %}
             </h2>
         </div>
         <div class="card-body row">
@@ -31,7 +37,7 @@
                 <div class="card">
                     <div class="card-header">
                         {{ 'label.your_games'|trans }}
-                        <button type="button" class="btn btn-primary float-right">
+                        <button type="button" class="btn btn-primary float-right" id="btn-show-add-game">
                             <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_game'|trans }}</span>
                         </button>
                     </div>
@@ -50,4 +56,14 @@
 
         </div>
     </div>
+
+    <div class="gauntlet" data-gauntlet-id="{{ gauntlet.id }}"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $('#btn-show-add-game').click(showAddGame)
+        })
+    </script>
 {% endblock %}

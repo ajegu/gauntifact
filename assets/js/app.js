@@ -31,4 +31,5 @@ const Utils = require('./utils');
 global.Utils = Utils
 
 require('./dashboard/gauntlet')
+require('./dashboard/game')
 

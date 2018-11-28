@@ -68,7 +68,11 @@ class GauntletController extends AbstractController
         ]);
     }
 
+
     /**
+     * @param Gauntlet $gauntlet
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/gauntlet/{id}", name="app_gauntlet_show")
      */
     public function show(Gauntlet $gauntlet)
