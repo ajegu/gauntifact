@@ -2,6 +2,8 @@ title.home: Hello, world!
 title.login: Sign In
 title.register: Sign Up
 title.add_gauntlet: Add a gauntlet
+title.add_game: Add a game
+
 
 menu.dashboard: Dashboard
 menu.dashboard.gauntlet_history: Gauntlets history
@@ -18,6 +20,14 @@ label.your_games: Your games
 label.gauntlet_current: Current
 label.gauntlet_finish: Finish
 label.gauntlet_conceded: Conceded
+label.game_status: Status
+label.game_win: Win
+label.game_lose: Lose
+label.game_draw: Draw
+label.game: Game
+label.game_played_at: Played at
+
+
 
 btn.login: Sign in
 btn.logout: Sign out
@@ -27,6 +37,8 @@ btn.add_gauntlet: Add a gauntlet
 btn.close: Close
 btn.add_game: Add game
 
-success.add_gauntlet: The gauntlet has been created successful !
+success.add_gauntlet: The gauntlet has been created successfully!
+success.add_game: The game has been created successfully!
+
 validator.deck_code_not_valid: The deck code is not valid.
 

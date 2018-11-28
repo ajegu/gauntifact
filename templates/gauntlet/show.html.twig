@@ -6,7 +6,7 @@
     <div class="row card">
         <div class="card-header">
             <h2>
-                {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }}
+                {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }} | {{ gauntlet.type.name }}
                 {% if gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CURRENT') %}
                     <span class="badge badge-warning float-right">{{ 'label.gauntlet_current'|trans }}</span>
                 {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_FINISH') %}
@@ -20,7 +20,11 @@
 
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">{{ 'label.your_deck'|trans }} : {{ gauntlet.deck.name }}</div>
+                    <div class="card-header">
+                        {{ 'label.your_deck'|trans }} : {{ gauntlet.deck.name }}
+                        <a class="float-right" href="{{ gauntlet.deck.code }}" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                    </div>
                     <div class="card-body">
                         <ul class="list-group">
                             {% for deckCard in gauntlet.deck.deckCards %}
@@ -44,11 +48,37 @@
                     <div class="card-body">
 
                         <ul class="list-group">
-                            {#{% for deckCard in gauntlet.deck.deckCards %}#}
-                            {#<li class="list-group-item">#}
-                            {#{{ deckCard.card.name }}#}
-                            {#</li>#}
-                            {#{% endfor %}#}
+                            {% for game in gauntlet.games %}
+                                <li class="list-group-item">
+                                    <span>
+                                        {{ 'label.game'|trans }} #{{ loop.index }}
+                                        {% if game.status == constant('App\\Entity\\Game::STATUS_WIN') %}
+                                            <span class="badge badge-success">{{ 'label.game_win'|trans }}</span>
+                                        {% elseif game.status == constant('App\\Entity\\Game::STATUS_LOSE') %}
+                                            <span class="badge badge-danger">{{ 'label.game_lose'|trans }}</span>
+                                        {% elseif game.status == constant('App\\Entity\\Game::STATUS_DRAW') %}
+                                            <span class="badge badge-secondary">{{ 'label.game_draw'|trans }}</span>
+                                        {% endif %}
+                                    </span>
+                                    <small class="text-center ml-4">{{ 'label.game_played_at'|trans }} {{ game.created|localizeddate('short', 'short', app.request.locale) }}</small>
+
+                                    <div class="btn-group float-right" role="group">
+                                        {% if game.opposingDeck is not null %}
+                                            <a class=" btn btn-secondary" href="{{ game.opposingDeck.code }}"
+                                               target="_blank"><i
+                                                        class="fas fa-external-link-alt"></i></a>
+                                        {% endif %}
+                                        <button type="button" class="btn btn-secondary">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-secondary">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+
+
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

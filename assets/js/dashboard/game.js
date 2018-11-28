@@ -27,7 +27,7 @@ window.addGame = function(e) {
         url: url,
         currentTarget: e.currentTarget,
         modalSelector: '#modal-add-game',
-        callback: function(data) {
+        callback: function() {
             const url = Routing.generate('app_gauntlet_show', {id: gauntletId})
             Utils.redirect(url)
         }

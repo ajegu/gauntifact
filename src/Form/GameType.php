@@ -44,7 +44,6 @@ class GameType extends AbstractType
                 'mapped' => false,
                 'label' => 'label.deck_code',
                 'constraints' => [
-                    new NotBlank(),
                     new Deck()
                 ],
                 'attr' => [

@@ -28,7 +28,7 @@ class Game
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\deck", inversedBy="games")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $opposingDeck;
 
