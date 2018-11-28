@@ -1,1 +1,53 @@
-{{ dump(gauntlet) }}
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block dashboard_body %}
+    <div class="row card">
+        <div class="card-header">
+            <h2>
+                {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }}
+                <span class="badge badge-primary float-right">{{ gauntlet.status|trans }}</span>
+            </h2>
+        </div>
+        <div class="card-body row">
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">{{ 'label.your_deck'|trans }} : {{ gauntlet.deck.name }}</div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for deckCard in gauntlet.deck.deckCards %}
+                                <li class="list-group-item">
+                                    {{ deckCard.card.name }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        {{ 'label.your_games'|trans }}
+                        <button type="button" class="btn btn-primary float-right">
+                            <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_game'|trans }}</span>
+                        </button>
+                    </div>
+                    <div class="card-body">
+
+                        <ul class="list-group">
+                            {#{% for deckCard in gauntlet.deck.deckCards %}#}
+                            {#<li class="list-group-item">#}
+                            {#{{ deckCard.card.name }}#}
+                            {#</li>#}
+                            {#{% endfor %}#}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

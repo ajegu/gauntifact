@@ -4,10 +4,11 @@
 
 {% block body %}
     <div class="row my-2 mx-2">
-        <div class="col-md-4">
-            <button id="btn-show-add-gauntlet" class="btn btn-primary">
-                <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_gauntlet'|trans }}</span>
-            </button>
+        <div class="col-md-2">
+            {{ render(controller('App\\Controller\\DashboardController::menu')) }}
+        </div>
+        <div class="col-md-10">
+            {% block dashboard_body %}{% endblock %}
         </div>
     </div>
 {% endblock %}

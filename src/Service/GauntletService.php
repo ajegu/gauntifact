@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\Gauntlet;
+use App\Entity\User;
 use App\Exception\GauntletNotNullException;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -29,6 +30,21 @@ class GauntletService
         $this->manager = $manager;
     }
 
+    /**
+     * @param User $user
+     * @return Gauntlet|null|object
+     */
+    public function getCurrent(User $user)
+    {
+        $gauntlet = $this->manager->getRepository(Gauntlet::class)
+            ->findOneBy([
+                'user' => $user,
+                'status' => Gauntlet::STATUS_CURRENT
+            ]);
+
+        return $gauntlet;
+    }
+    
     /**
      * @param Gauntlet $gauntlet
      * @throws GauntletNotNullException

@@ -35,6 +35,13 @@ class GauntletController extends AbstractController
      */
     public function add(Request $request, DeckService $deckService, GauntletService $gauntletService)
     {
+        // On check qu'un affrontement "en cours" existe
+        $gauntlet = $gauntletService->getCurrent($this->getUser());
+        if ($gauntlet !== null) {
+            return $this->redirectToRoute('app_gauntlet_show', ['id' => $gauntlet->getId()]);
+        }
+
+        // On crée un affrontement
         $gauntlet = new Gauntlet();
 
         $form = $this->createForm(GauntletType::class, $gauntlet);

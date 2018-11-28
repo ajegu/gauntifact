@@ -3,13 +3,18 @@ title.login: Connectez-vous
 title.register: Création de votre compte
 title.add_gauntlet: Ajout d'un affrontement
 
-link.dashboard: Tableau de bord
+menu.dashboard: Tableau de bord
+menu.dashboard.gauntlet_history: Historique des affrontements
+menu.dashboard.gauntlet_show_current: Voir l'affrontement en cours
 
 label.email: Email
 label.password: Mot de passe
 label.pseudo: Pseudo
 label.gauntletType: Type d'affrontement
 label.deck_code: Deck code
+label.gauntlet: Affrontement
+label.your_deck: Votre deck
+label.your_games: Vos games
 
 btn.login: Se connecter
 btn.logout: Se déconnecter
@@ -17,7 +22,12 @@ btn.register: Créer un compte
 btn.submit: Valider
 btn.add_gauntlet: Ajouter un affrontement
 btn.close: Fermer
+btn.add_game: Ajouter une game
 
 success.add_gauntlet: L'affrontement a bien été crée !
 
 validator.deck_code_not_valid: Le code du deck n'est pas valide.
+
+CURRENT: En cours
+FINISH: Terminé
+CONCEDED: Abandonné
