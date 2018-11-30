@@ -37,3 +37,11 @@
     </div>
 
 {% endblock %}
+
+{% block dashboard_javascripts %}
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $('#list-gauntlet-history').DataTable()
+        })
+    </script>
+{% endblock %}

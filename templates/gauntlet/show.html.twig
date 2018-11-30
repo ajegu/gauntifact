@@ -9,10 +9,11 @@
                 {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }} | {{ gauntlet.type.name }}
 
                 {{ gauntletStatusBadge(gauntlet.status) }}
-
-                <button type="button" class="btn btn-primary float-right">
-                    <i class="fas fa-unlock"></i>
-                </button>
+                {% if gauntlet.lock %}
+                    <button type="button" class="btn btn-primary float-right" id="btn-unlock-gauntlet">
+                        <i class="fas fa-unlock"></i>
+                    </button>
+                {% endif %}
             </h2>
         </div>
         <div class="card-body row">
@@ -94,11 +95,12 @@
     <div class="gauntlet" data-gauntlet-id="{{ gauntlet.id }}"></div>
 {% endblock %}
 
-{% block javascripts %}
+{% block dashboard_javascripts %}
     <script type="application/javascript">
         $(document).ready(function () {
             $('#btn-add-game').click(showAddGame)
             $('.btn-delete-game').click(showDeleteGame)
+            $('#btn-unlock-gauntlet').click(unlockGauntlet)
         })
     </script>
 {% endblock %}

@@ -17,7 +17,8 @@
     <script type="application/javascript">
         $(document).ready(function() {
             $('#btn-show-add-gauntlet').click(showAddGauntlet)
-            $('#list-gauntlet-history').DataTable()
         })
     </script>
+
+    {% block dashboard_javascripts %}{% endblock %}
 {% endblock %}

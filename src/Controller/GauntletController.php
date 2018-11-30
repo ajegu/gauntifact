@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Gauntlet;
+use App\Exception\GauntletNotNullException;
 use App\Form\GauntletType;
 use App\Service\DeckService;
 use App\Service\GauntletService;
@@ -14,6 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class GauntletController extends AbstractController
 {
     /**
+     * @param GauntletService $gauntletService
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/gauntlet-list", name="app_gauntlet_list")
      */
     public function list(GauntletService $gauntletService)
@@ -82,5 +86,32 @@ class GauntletController extends AbstractController
         return $this->render('gauntlet/show.html.twig', [
             'gauntlet' => $gauntlet
         ]);
+    }
+
+
+    /**
+     * @param Gauntlet $gauntlet
+     * @param GauntletService $gauntletService
+     * @return JsonResponse
+     *
+     * @Route("/unlock-gauntlet/{id}", name="app_gauntlet_unlock")
+     */
+    public function unlock(Gauntlet $gauntlet, GauntletService $gauntletService)
+    {
+        $response = [
+            'success' => true,
+            'message' => ''
+        ];
+
+        try {
+            $gauntletService->unlock($gauntlet);
+        } catch (GauntletNotNullException $e) {
+            $response = [
+                'success' => false,
+                'message' => 'error.gauntlet_unlock'
+            ];
+        }
+
+        return new JsonResponse($response);
     }
 }

@@ -31,3 +31,8 @@ window.addGauntlet = function(e)
         }
     })
 }
+
+window.unlockGauntlet = function()
+{
+    // TODO: 
+}

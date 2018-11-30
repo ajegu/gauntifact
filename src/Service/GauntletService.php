@@ -85,4 +85,24 @@ class GauntletService
 
         return $gauntlets;
     }
+
+    /**
+     * @param Gauntlet $gauntlet
+     * @throws GauntletNotNullException
+     */
+    public function unlock(Gauntlet $gauntlet)
+    {
+        $current = $this->getCurrent($gauntlet->getUser());
+
+        if ($current !== null) {
+            throw new GauntletNotNullException(
+                sprintf('L\utilisateur %s ne peux pas avoir plusieurs affrontements en cours', $gauntlet->getUser()->getId())
+            );
+        }
+
+        $gauntlet->setStatus(Gauntlet::STATUS_CURRENT);
+
+        $this->manager->persist($gauntlet);
+        $this->manager->flush();
+    }
 }
