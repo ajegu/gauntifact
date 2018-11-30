@@ -8,16 +8,29 @@ use App\Form\GameType;
 use App\Service\DeckService;
 use App\Service\GameService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class GameController extends AbstractController
 {
+
     /**
+     * @param Request $request
+     * @param Gauntlet $gauntlet
+     * @param DeckService $deckService
+     * @param GameService $gameService
+     * @param TranslatorInterface $translator
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \App\Exception\CardNotFoundException
+     * @throws \App\Exception\GameNotNullException
+     * @throws \App\Exception\GauntletMaxGameException
+     *
      * @Route("/add-game/{id}", name="app_game_add")
      */
-    public function add(Request $request, Gauntlet $gauntlet, DeckService $deckService, GameService $gameService)
+    public function add(Request $request, Gauntlet $gauntlet, DeckService $deckService, GameService $gameService, TranslatorInterface $translator)
     {
         $game = new Game();
 
@@ -38,13 +51,43 @@ class GameController extends AbstractController
 
             return new JsonResponse([
                 'success' => true,
-                'message' => 'success.add_game'
+                'message' => $translator->trans('success.add_game')
             ]);
-
         }
 
         return $this->render('game/add.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @param Game $game
+     * @param GameService $gameService
+     * @param TranslatorInterface $translator
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/delete-game/{id}", name="app_game_delete")
+     */
+    public function delete(Request $request, Game $game, GameService $gameService, TranslatorInterface $translator)
+    {
+        $form = $this->createForm(FormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $gameService->delete($game);
+
+            return new JsonResponse([
+                'success' => true,
+                'message' => $translator->trans('success.delete_game')
+            ]);
+        }
+
+        return $this->render('game/delete.html.twig', [
+            'form' => $form->createView(),
+            'game' => $game
         ]);
     }
 }

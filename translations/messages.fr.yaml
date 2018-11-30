@@ -37,5 +37,6 @@ btn.add_game: Ajouter une game
 
 success.add_gauntlet: L'affrontement a bien été crée !
 success.add_game: La game a bien été crée !
+success.delete_game: La game a bien été supprimé !
 
 validator.deck_code_not_valid: Le code du deck n'est pas valide.

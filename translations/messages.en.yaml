@@ -29,6 +29,7 @@ label.game_played_at: Played at
 
 
 
+
 btn.login: Sign in
 btn.logout: Sign out
 btn.register: Sign up
@@ -39,6 +40,7 @@ btn.add_game: Add game
 
 success.add_gauntlet: The gauntlet has been created successfully!
 success.add_game: The game has been created successfully!
+success.delete_game: The game has been deleted successfully!
 
 validator.deck_code_not_valid: The deck code is not valid.
 

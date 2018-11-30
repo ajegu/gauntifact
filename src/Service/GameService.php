@@ -12,6 +12,7 @@ namespace App\Service;
 use App\Entity\Game;
 use App\Entity\Gauntlet;
 use App\Exception\GameNotNullException;
+use App\Exception\GauntletLockException;
 use App\Exception\GauntletMaxGameException;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -68,6 +69,16 @@ class GameService
             $this->manager->persist($gauntlet);
         }
 
+        $this->manager->flush();
+    }
+
+    public function delete(Game $game)
+    {
+        if ($game->getGauntlet()->isLock()) {
+            throw new GauntletLockException(sprintf('L\'affrontement #%s est vérouillé en modification', $game->getGauntlet()->getId()));
+        }
+
+        $this->manager->remove($game);
         $this->manager->flush();
     }
 }

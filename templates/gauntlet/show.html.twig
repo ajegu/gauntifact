@@ -8,12 +8,16 @@
             <h2>
                 {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }} | {{ gauntlet.type.name }}
                 {% if gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CURRENT') %}
-                    <span class="badge badge-warning float-right">{{ 'label.gauntlet_current'|trans }}</span>
+                    <span class="badge badge-warning">{{ 'label.gauntlet_current'|trans }}</span>
                 {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_FINISH') %}
-                    <span class="badge badge-success float-right">{{ 'label.gauntlet_finish'|trans }}</span>
+                    <span class="badge badge-success">{{ 'label.gauntlet_finish'|trans }}</span>
                 {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CONCEDED') %}
-                    <span class="badge badge-danger float-right">{{ 'label.gauntlet_conceded'|trans }}</span>
+                    <span class="badge badge-danger">{{ 'label.gauntlet_conceded'|trans }}</span>
                 {% endif %}
+
+                <button type="button" class="btn btn-primary float-right">
+                    <i class="fas fa-unlock"></i>
+                </button>
             </h2>
         </div>
         <div class="card-body row">
@@ -22,7 +26,7 @@
                 <div class="card">
                     <div class="card-header">
                         {{ 'label.your_deck'|trans }} : {{ gauntlet.deck.name }}
-                        <a class="float-right" href="{{ gauntlet.deck.code }}" target="_blank"><i
+                        <a href="{{ gauntlet.deck.code }}" class="float-right" target="_blank"><i
                                     class="fas fa-external-link-alt"></i></a>
                     </div>
                     <div class="card-body">
@@ -42,7 +46,7 @@
                     <div class="card-header">
                         {{ 'label.your_games'|trans }}
                         {% if gauntlet.possibleToAddGame %}
-                            <button type="button" class="btn btn-primary float-right" id="btn-show-add-game">
+                            <button type="button" class="btn btn-primary float-right" id="btn-add-game">
                                 <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_game'|trans }}</span>
                             </button>
                         {% endif %}
@@ -70,12 +74,15 @@
                                                target="_blank"><i
                                                         class="fas fa-external-link-alt"></i></a>
                                         {% endif %}
-                                        <button type="button" class="btn btn-secondary">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-secondary">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                        {% if gauntlet.lock == false %}
+                                            <button type="button" class="btn btn-secondary">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-delete-game"
+                                                    data-game-id="{{ game.id }}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        {% endif %}
                                     </div>
 
 
@@ -95,7 +102,8 @@
 {% block javascripts %}
     <script type="application/javascript">
         $(document).ready(function () {
-            $('#btn-show-add-game').click(showAddGame)
+            $('#btn-add-game').click(showAddGame)
+            $('.btn-delete-game').click(showDeleteGame)
         })
     </script>
 {% endblock %}

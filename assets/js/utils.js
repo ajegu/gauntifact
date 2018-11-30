@@ -3,7 +3,7 @@
  * @param config
  * {
  *     type,
- *     message
+ *     message,
  * }
  */
 export function notify(config)
@@ -30,7 +30,7 @@ export function notify(config)
             from: 'bottom',
             align: 'right'
         },
-        delay: 3000,
+        delay: 1000,
         timer: 1000,
         offset: {
             x: 10,
@@ -41,7 +41,7 @@ export function notify(config)
             exit: 'animated bounceOutDown'
         },
         width: width,
-        z_index: 2000,
+        z_index: 2000
     });
 }
 
@@ -50,13 +50,20 @@ export function notify(config)
  * @param config
  * {
  *     btnSelector,
+ *     btnElement,
  *     modalSelector,
  *     url
  * }
  */
 export function showFormModal(config)
 {
-    const l = Ladda.create( document.querySelector(config.btnSelector) )
+    let l;
+    if (config.btnElement !== undefined) {
+        l = Ladda.create( config.btnElement )
+    } else if (config.btnSelector !== undefined) {
+        l = Ladda.create( document.querySelector(config.btnSelector) )
+    }
+
     l.start()
 
     $.ajax(config.url, {

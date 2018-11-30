@@ -240,4 +240,12 @@ class Gauntlet
 
         return $addGame;
     }
+
+    /**
+     * @return bool
+     */
+    public function isLock()
+    {
+       return $this->getStatus() !== self::STATUS_CURRENT;
+    }
 }
