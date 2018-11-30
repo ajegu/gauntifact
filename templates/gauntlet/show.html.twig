@@ -7,13 +7,8 @@
         <div class="card-header">
             <h2>
                 {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }} | {{ gauntlet.type.name }}
-                {% if gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CURRENT') %}
-                    <span class="badge badge-warning">{{ 'label.gauntlet_current'|trans }}</span>
-                {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_FINISH') %}
-                    <span class="badge badge-success">{{ 'label.gauntlet_finish'|trans }}</span>
-                {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CONCEDED') %}
-                    <span class="badge badge-danger">{{ 'label.gauntlet_conceded'|trans }}</span>
-                {% endif %}
+
+                {{ gauntletStatusBadge(gauntlet.status) }}
 
                 <button type="button" class="btn btn-primary float-right">
                     <i class="fas fa-unlock"></i>

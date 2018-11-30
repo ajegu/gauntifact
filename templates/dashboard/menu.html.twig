@@ -1,7 +1,7 @@
 <div class="list-group">
     {% if currentGauntlet is null %}
         <a href="#" id="btn-show-add-gauntlet" class="list-group-item list-group-item-action">
-            <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_gauntlet'|trans }}</span>
+            <span class="ladda-label"><i class="fas fa-plus mr-2"></i> {{ 'btn.add_gauntlet'|trans }}</span>
         </a>
     {% else %}
         <a href="{{ path('app_gauntlet_show', {id: currentGauntlet.id}) }}" class="list-group-item list-group-item-warning">
@@ -9,5 +9,5 @@
             {{ 'menu.dashboard.gauntlet_show_current'|trans }}
         </a>
     {% endif %}
-    <a href="#" class="list-group-item list-group-item-action">{{ 'menu.dashboard.gauntlet_history'|trans }}</a>
+    <a href="{{ path('app_gauntlet_list') }}" class="list-group-item list-group-item-action">{{ 'menu.dashboard.gauntlet_history'|trans }}</a>
 </div>

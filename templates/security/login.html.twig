@@ -21,11 +21,13 @@
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"
                 >
-                <button class="btn btn-primary" type="submit">{{ 'btn.login'|trans }}</button>
 
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
+
+                <button class="btn btn-primary" type="submit">{{ 'btn.login'|trans }}</button>
+
             </form>
         </div>
     </div>

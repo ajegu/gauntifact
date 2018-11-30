@@ -71,4 +71,18 @@ class GauntletService
         $this->manager->persist($gauntlet);
         $this->manager->flush();
     }
+
+    /**
+     * @param User $user
+     * @return Gauntlet[]
+     */
+    public function list(User $user)
+    {
+        $gauntlets = $this->manager->getRepository(Gauntlet::class)
+            ->findBy([
+                'user' => $user
+            ]);
+
+        return $gauntlets;
+    }
 }

@@ -34,6 +34,7 @@ btn.submit: Valider
 btn.add_gauntlet: Ajouter un affrontement
 btn.close: Fermer
 btn.add_game: Ajouter une game
+btn.show: Afficher
 
 success.add_gauntlet: L'affrontement a bien été crée !
 success.add_game: La game a bien été crée !

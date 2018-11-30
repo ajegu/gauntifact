@@ -14,12 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class GauntletController extends AbstractController
 {
     /**
-     * @Route("/gauntlet", name="gauntlet")
+     * @Route("/gauntlet-list", name="app_gauntlet_list")
      */
-    public function index()
+    public function list(GauntletService $gauntletService)
     {
-        return $this->render('gauntlet/index.html.twig', [
-            'controller_name' => 'GauntletController',
+        $gauntlets = $gauntletService->list($this->getUser());
+
+        return $this->render('gauntlet/list.html.twig', [
+            'gauntlets' => $gauntlets,
         ]);
     }
 

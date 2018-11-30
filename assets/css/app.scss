@@ -8,7 +8,8 @@ $body-color: #111;
 //    display:inline;
 //}
 
-@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~datatables.net-bs4/css/dataTables.bootstrap4";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~ladda/css/ladda";
 @import "~animate.css";

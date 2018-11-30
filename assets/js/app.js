@@ -17,6 +17,7 @@ require('bootstrap')
 require('popper.js')
 require('@fortawesome/fontawesome-free/js/all')
 require('bootstrap4-notify')
+require('datatables.net-bs4')
 
 const Ladda = require('ladda')
 global.Ladda = Ladda
