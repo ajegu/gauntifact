@@ -196,4 +196,48 @@ class Gauntlet
 
         return $this;
     }
+
+    /**
+     * @param bool $includeDraw
+     * @return Game[]
+     */
+    public function getGamesLost($includeDraw = true)
+    {
+        $games = [];
+        foreach ($this->getGames() as $game) {
+            if ($game->getStatus() === Game::STATUS_LOSE || ($includeDraw && $game->getStatus() === Game::STATUS_DRAW)) {
+                $games[] = $game;
+            }
+        }
+
+        return $games;
+    }
+
+    /**
+     * @return Game[]
+     */
+    public function getGamesWon()
+    {
+        $games = [];
+        foreach ($this->getGames() as $game) {
+            if ($game->getStatus() === Game::STATUS_WIN) {
+                $games[] = $game;
+            }
+        }
+
+        return $games;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPossibleToAddGame()
+    {
+        $addGame = true;
+        if (count($this->getGames()) === 7 || count($this->getGamesWon()) === 5 || count($this->getGamesLost()) === 2) {
+            $addGame = false;
+        }
+
+        return $addGame;
+    }
 }

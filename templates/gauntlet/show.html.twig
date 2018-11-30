@@ -10,9 +10,9 @@
                 {% if gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CURRENT') %}
                     <span class="badge badge-warning float-right">{{ 'label.gauntlet_current'|trans }}</span>
                 {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_FINISH') %}
-                    <span class="badge badge-success float-right">{{ 'label.gauntlet_current'|trans }}</span>
+                    <span class="badge badge-success float-right">{{ 'label.gauntlet_finish'|trans }}</span>
                 {% elseif gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CONCEDED') %}
-                    <span class="badge badge-danger float-right">{{ 'label.gauntlet_current'|trans }}</span>
+                    <span class="badge badge-danger float-right">{{ 'label.gauntlet_conceded'|trans }}</span>
                 {% endif %}
             </h2>
         </div>
@@ -41,9 +41,11 @@
                 <div class="card">
                     <div class="card-header">
                         {{ 'label.your_games'|trans }}
-                        <button type="button" class="btn btn-primary float-right" id="btn-show-add-game">
-                            <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_game'|trans }}</span>
-                        </button>
+                        {% if gauntlet.possibleToAddGame %}
+                            <button type="button" class="btn btn-primary float-right" id="btn-show-add-game">
+                                <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_game'|trans }}</span>
+                            </button>
+                        {% endif %}
                     </div>
                     <div class="card-body">
 
