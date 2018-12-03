@@ -3,7 +3,7 @@ title.login: Sign In
 title.register: Sign Up
 title.add_gauntlet: Add a gauntlet
 title.add_game: Add a game
-
+title.unlock_gauntlet: Unlock a gauntlet
 
 menu.dashboard: Dashboard
 menu.dashboard.gauntlet_history: Gauntlets history
@@ -40,8 +40,9 @@ btn.show: Show
 success.add_gauntlet: The gauntlet has been created successfully!
 success.add_game: The game has been created successfully!
 success.delete_game: The game has been deleted successfully!
+success.unlock_gauntlet: The gauntlet has been unlocked successfully!
 
-error.gauntlet_unlock: You can't unlock this gauntlet because you already have one in progress!
+error.unlock_gauntlet: You can't unlock this gauntlet because you already have one in progress!
 
 validator.deck_code_not_valid: The deck code is not valid.
 

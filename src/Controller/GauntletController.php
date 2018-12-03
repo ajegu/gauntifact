@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class GauntletController extends AbstractController
 {
@@ -92,24 +93,22 @@ class GauntletController extends AbstractController
     /**
      * @param Gauntlet $gauntlet
      * @param GauntletService $gauntletService
-     * @return JsonResponse
+     * @param TranslatorInterface $translator
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @Route("/unlock-gauntlet/{id}", name="app_gauntlet_unlock")
      */
-    public function unlock(Gauntlet $gauntlet, GauntletService $gauntletService)
+    public function unlock(Gauntlet $gauntlet, GauntletService $gauntletService, TranslatorInterface $translator)
     {
         $response = [
             'success' => true,
-            'message' => ''
+            'message' => $translator->trans('success.gauntlet_unlock')
         ];
 
         try {
             $gauntletService->unlock($gauntlet);
         } catch (GauntletNotNullException $e) {
-            $response = [
-                'success' => false,
-                'message' => 'error.gauntlet_unlock'
-            ];
+            return $this->render('gauntlet/unlock.html.twig');
         }
 
         return new JsonResponse($response);

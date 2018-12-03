@@ -34,5 +34,47 @@ window.addGauntlet = function(e)
 
 window.unlockGauntlet = function()
 {
-    // TODO: 
+    const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
+    const url = Routing.generate('app_gauntlet_unlock', {id: gauntletId})
+
+    const l = Ladda.create( document.querySelector('#btn-unlock-gauntlet') )
+
+    l.start()
+
+    $.ajax(url, {
+        success: function (data) {
+            l.stop()
+
+            if (data.success) {
+
+                Utils.notify({
+                    type: 'success',
+                    message: data.message
+                })
+
+                const url = Routing.generate('app_gauntlet_show', {id: gauntletId})
+                Utils.redirect(url)
+
+            } else {
+                // Gestion du DOM
+                $('body').append(data)
+
+                // Affichage de la modale
+                $('#modal-unlock-gauntlet').modal('show')
+
+                $('#modal-unlock-gauntlet').on('hidden.bs.modal', function () {
+                    $('#modal-unlock-gauntlet').remove()
+                })
+            }
+
+
+        },
+        error: function () {
+            l.stop()
+            Utils.notify({
+                type: 'danger',
+                message: 'Server error'
+            })
+        }
+    });
 }

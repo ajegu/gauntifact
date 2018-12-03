@@ -3,6 +3,8 @@ title.login: Connectez-vous
 title.register: Création de votre compte
 title.add_gauntlet: Ajout d'un affrontement
 title.add_game: Ajout d'une game
+title.unlock_gauntlet: Dévérouillage de l'affrontement
+
 
 menu.dashboard: Tableau de bord
 menu.dashboard.gauntlet_history: Historique des affrontements
@@ -39,8 +41,9 @@ btn.show: Afficher
 success.add_gauntlet: L'affrontement a bien été crée !
 success.add_game: La game a bien été crée !
 success.delete_game: La game a bien été supprimé !
+success.unlock_gauntlet: L'affrontement a bien été dévérouillé !
 
-error.gauntlet_unlock: Vous ne pouvez pas débloquer cette affrontement car vous en avez déjà un en cours !
+error.unlock_gauntlet: Vous ne pouvez pas débloquer cette affrontement car vous en avez déjà un en cours !
 
 
 validator.deck_code_not_valid: Le code du deck n'est pas valide.
