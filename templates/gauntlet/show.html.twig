@@ -13,6 +13,10 @@
                     <button type="button" class="btn btn-primary float-right" id="btn-unlock-gauntlet">
                         <i class="fas fa-unlock"></i>
                     </button>
+                {% elseif gauntlet.possibleToAddGame == false %}
+                    <button type="button" class="btn btn-primary float-right" id="btn-lock-gauntlet">
+                        <i class="fas fa-lock"></i>
+                    </button>
                 {% endif %}
             </h2>
         </div>
@@ -101,6 +105,7 @@
             $('#btn-add-game').click(showAddGame)
             $('.btn-delete-game').click(showDeleteGame)
             $('#btn-unlock-gauntlet').click(unlockGauntlet)
+            $('#btn-lock-gauntlet').click(lockGauntlet)
 
         })
     </script>

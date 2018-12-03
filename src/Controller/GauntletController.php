@@ -120,4 +120,27 @@ class GauntletController extends AbstractController
             'success' => true
         ]);
     }
+
+    /**
+     * @param Gauntlet $gauntlet
+     * @param GauntletService $gauntletService
+     * @param TranslatorInterface $translator
+     * @return JsonResponse
+     * @throws \App\Exception\GauntletLockException
+     *
+     * @Route("/lock-gauntlet/{id}", name="app_gauntlet_lock")
+     */
+    public function lock(Gauntlet $gauntlet, GauntletService $gauntletService, TranslatorInterface $translator)
+    {
+        $gauntletService->lock($gauntlet);
+
+        $this->addFlash(
+            'success',
+            $translator->trans('success.lock_gauntlet')
+        );
+
+        return new JsonResponse([
+            'success' => true
+        ]);
+    }
 }

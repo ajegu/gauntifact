@@ -11,6 +11,7 @@ namespace App\Service;
 
 use App\Entity\Gauntlet;
 use App\Entity\User;
+use App\Exception\GauntletLockException;
 use App\Exception\GauntletNotNullException;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -101,6 +102,23 @@ class GauntletService
         }
 
         $gauntlet->setStatus(Gauntlet::STATUS_CURRENT);
+
+        $this->manager->persist($gauntlet);
+        $this->manager->flush();
+    }
+
+    /**
+     * @param Gauntlet $gauntlet
+     * @throws GauntletLockException
+     */
+    public function lock(Gauntlet $gauntlet)
+    {
+        // On contrôle que l'affrontement est bien terminé
+        if ($gauntlet->isPossibleToAddGame() === true) {
+            throw new GauntletLockException(sprintf("L'affrontement %s ne peut pas être vérrouillé car il est toujours possibles d'ajouter des games"), $gauntlet->getId());
+        }
+
+        $gauntlet->setStatus(Gauntlet::STATUS_FINISH);
 
         $this->manager->persist($gauntlet);
         $this->manager->flush();

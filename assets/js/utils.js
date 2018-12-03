@@ -30,7 +30,7 @@ export function notify(config)
             from: 'bottom',
             align: 'right'
         },
-        delay: 1000,
+        delay: 3000,
         timer: 1000,
         offset: {
             x: 10,
@@ -43,6 +43,19 @@ export function notify(config)
         width: width,
         z_index: 2000
     });
+}
+
+export function errorNotify(l = null)
+{
+    // Ladda button
+    if (l) {
+        l.stop()
+    }
+
+    Utils.notify({
+        type: 'danger',
+        message: 'Server error'
+    })
 }
 
 /**
@@ -86,11 +99,7 @@ export function showFormModal(config)
             })
         },
         error: function() {
-            l.stop()
-            Utils.notify({
-                type: 'danger',
-                message: 'Server error'
-            })
+            Utils.errorNotify(l)
         }
     })
 }
@@ -131,12 +140,7 @@ export function submitFormModal(config)
             }
         },
         error: function() {
-            l.stop()
-
-            Utils.notify({
-                type: 'danger',
-                message: 'Server error'
-            })
+            Utils.errorNotify(l)
         }
     })
 }

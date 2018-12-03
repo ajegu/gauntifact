@@ -42,6 +42,7 @@ success.add_gauntlet: L'affrontement a bien été crée !
 success.add_game: La game a bien été crée !
 success.delete_game: La game a bien été supprimé !
 success.unlock_gauntlet: L'affrontement a bien été dévérouillé !
+success.lock_gauntlet: L'affrontement a bien été vérouillé !
 
 error.unlock_gauntlet: Vous ne pouvez pas débloquer cette affrontement car vous en avez déjà un en cours !
 

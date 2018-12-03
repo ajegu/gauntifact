@@ -65,11 +65,32 @@ window.unlockGauntlet = function()
 
         },
         error: function () {
+            Utils.errorNotify(l)
+        }
+    });
+}
+
+window.lockGauntlet = function()
+{
+    const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
+    const url = Routing.generate('app_gauntlet_lock', {id: gauntletId})
+
+    const l = Ladda.create( document.querySelector('#btn-lock-gauntlet') )
+
+    l.start()
+
+    $.ajax(url, {
+        success: function (data) {
             l.stop()
-            Utils.notify({
-                type: 'danger',
-                message: 'Server error'
-            })
+
+            if (data.success) {
+                const url = Routing.generate('app_gauntlet_show', {id: gauntletId})
+                Utils.redirect(url)
+            }
+
+        },
+        error: function () {
+            Utils.errorNotify(l)
         }
     });
 }

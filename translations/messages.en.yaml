@@ -41,6 +41,7 @@ success.add_gauntlet: The gauntlet has been created successfully!
 success.add_game: The game has been created successfully!
 success.delete_game: The game has been deleted successfully!
 success.unlock_gauntlet: The gauntlet has been unlocked successfully!
+success.lock_gauntlet: The gauntlet has been locked successfully!
 
 error.unlock_gauntlet: You can't unlock this gauntlet because you already have one in progress!
 
