@@ -59,26 +59,42 @@ class GameService
         }
 
         $this->manager->persist($game);
+        $this->manager->flush();
 
         // On ajoute la game à l'affrontement
         $gauntlet->addGame($game);
-
-        // Si le nombre max de game est atteint, on met à jour le statut de l'affrontement
-        if ($gauntlet->isPossibleToAddGame() === false) {
-            $gauntlet->setStatus(Gauntlet::STATUS_FINISH);
-            $this->manager->persist($gauntlet);
-        }
-
-        $this->manager->flush();
+        $this->lockGauntletIfFinish($gauntlet);
     }
 
+    /**
+     * @param Game $game
+     * @throws GauntletLockException
+     */
     public function delete(Game $game)
     {
-        if ($game->getGauntlet()->isLock()) {
+        $gauntlet = $game->getGauntlet();
+
+        if ($gauntlet->isLock()) {
             throw new GauntletLockException(sprintf('L\'affrontement #%s est vérouillé en modification', $game->getGauntlet()->getId()));
         }
 
         $this->manager->remove($game);
         $this->manager->flush();
+
+        $gauntlet->removeGame($game);
+        $this->lockGauntletIfFinish($gauntlet);
+    }
+
+    /**
+     * @param Gauntlet $gauntlet
+     */
+    private function lockGauntletIfFinish(Gauntlet $gauntlet)
+    {
+        // Si le nombre max de game est atteint, on met à jour le statut de l'affrontement
+        if ($gauntlet->isPossibleToAddGame() === false) {
+            $gauntlet->setStatus(Gauntlet::STATUS_FINISH);
+            $this->manager->persist($gauntlet);
+            $this->manager->flush();
+        }
     }
 }

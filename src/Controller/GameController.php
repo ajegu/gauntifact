@@ -32,7 +32,6 @@ class GameController extends AbstractController
      */
     public function add(Request $request, Gauntlet $gauntlet, DeckService $deckService, GameService $gameService, TranslatorInterface $translator)
     {
-        throw new \Exception();
         $game = new Game();
 
         $form = $this->createForm(GameType::class, $game);
