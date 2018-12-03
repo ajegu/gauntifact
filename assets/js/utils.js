@@ -120,10 +120,9 @@ export function submitFormModal(config)
             if (data.success) {
                 $(config.modalSelector).modal('hide')
 
-                Utils.notify({
-                    type: 'success',
-                    message: data.message
-                });
+                $(config.modalSelector).on('hidden.bs.modal', function () {
+                    $(config.modalSelector).remove()
+                })
 
                 config.callback(data)
 

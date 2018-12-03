@@ -49,9 +49,13 @@ class GameController extends AbstractController
 
             $gameService->create($game);
 
+            $this->addFlash(
+                'success',
+                $translator->trans('success.add_game')
+            );
+
             return new JsonResponse([
-                'success' => true,
-                'message' => $translator->trans('success.add_game')
+                'success' => true
             ]);
         }
 
@@ -67,6 +71,7 @@ class GameController extends AbstractController
      * @param GameService $gameService
      * @param TranslatorInterface $translator
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \App\Exception\GauntletLockException
      *
      * @Route("/delete-game/{id}", name="app_game_delete")
      */
@@ -79,9 +84,13 @@ class GameController extends AbstractController
 
             $gameService->delete($game);
 
+            $this->addFlash(
+                'success',
+                $translator->trans('success.delete_game')
+            );
+
             return new JsonResponse([
-                'success' => true,
-                'message' => $translator->trans('success.delete_game')
+                'success' => true
             ]);
         }
 

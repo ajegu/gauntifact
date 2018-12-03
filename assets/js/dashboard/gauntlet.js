@@ -47,11 +47,6 @@ window.unlockGauntlet = function()
 
             if (data.success) {
 
-                Utils.notify({
-                    type: 'success',
-                    message: data.message
-                })
-
                 const url = Routing.generate('app_gauntlet_show', {id: gauntletId})
                 Utils.redirect(url)
 

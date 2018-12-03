@@ -17,6 +17,16 @@
     <script type="application/javascript">
         $(document).ready(function() {
             $('#btn-show-add-gauntlet').click(showAddGauntlet)
+
+            // On affiche avec Notify, les flash messages
+            {% for label, messages in app.flashes %}
+            {% for message in messages %}
+            Utils.notify({
+                type: '{{ label }}',
+                message: '{{ message }}'
+            });
+            {% endfor %}
+            {% endfor %}
         })
     </script>
 

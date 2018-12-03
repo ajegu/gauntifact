@@ -34,13 +34,14 @@ class GauntletController extends AbstractController
      * @param Request $request
      * @param DeckService $deckService
      * @param GauntletService $gauntletService
+     * @param TranslatorInterface $translator
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \App\Exception\CardNotFoundException
      * @throws \App\Exception\GauntletNotNullException
      *
      * @Route("/add-gauntlet", name="app_gauntlet_add")
      */
-    public function add(Request $request, DeckService $deckService, GauntletService $gauntletService)
+    public function add(Request $request, DeckService $deckService, GauntletService $gauntletService, TranslatorInterface $translator)
     {
         // On check qu'un affrontement "en cours" existe
         $gauntlet = $gauntletService->getCurrent($this->getUser());
@@ -63,9 +64,13 @@ class GauntletController extends AbstractController
 
             $gauntletService->create($gauntlet);
 
+            $this->addFlash(
+                'success',
+                $translator->trans('success.add_gauntlet')
+            );
+
             return new JsonResponse([
                 'success' => true,
-                'message' => 'success.add_gauntlet',
                 'gauntletId' => $gauntlet->getId()
             ]);
         }
@@ -100,17 +105,19 @@ class GauntletController extends AbstractController
      */
     public function unlock(Gauntlet $gauntlet, GauntletService $gauntletService, TranslatorInterface $translator)
     {
-        $response = [
-            'success' => true,
-            'message' => $translator->trans('success.gauntlet_unlock')
-        ];
-
         try {
             $gauntletService->unlock($gauntlet);
         } catch (GauntletNotNullException $e) {
             return $this->render('gauntlet/unlock.html.twig');
         }
 
-        return new JsonResponse($response);
+        $this->addFlash(
+            'success',
+            $translator->trans('success.unlock_gauntlet')
+        );
+
+        return new JsonResponse([
+            'success' => true
+        ]);
     }
 }
