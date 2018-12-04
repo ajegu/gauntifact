@@ -166,4 +166,51 @@ class GauntletController extends AbstractController
             'success' => true
         ]);
     }
+
+
+    /**
+     * @param Request $request
+     * @param Gauntlet $gauntlet
+     * @param DeckService $deckService
+     * @param GauntletService $gauntletService
+     * @param TranslatorInterface $translator
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws GauntletNotNullException
+     * @throws \App\Exception\CardNotFoundException
+     * @throws \App\Exception\GauntletStatusException
+     *
+     * @Route("/edit-gauntlet/{id}", name="app_gauntlet_edit")
+     */
+    public function edit(Request $request, Gauntlet $gauntlet, DeckService $deckService, GauntletService $gauntletService, TranslatorInterface $translator)
+    {
+        $form = $this->createForm(GauntletType::class, $gauntlet);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $deckCode = $form->get('deckCode')->getData();
+
+            if ($deckCode !== $gauntlet->getDeck()->getCode()) {
+
+                $gauntletService->deleteDeck($gauntlet);
+
+                $deck = $deckService->createDeckFromCode($deckCode);
+                $gauntlet->setDeck($deck);
+            }
+
+            $gauntletService->edit($gauntlet);
+
+            $this->addFlash(
+                'success',
+                $translator->trans('success.edit_gauntlet')
+            );
+
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
+
+        return $this->render('gauntlet/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }

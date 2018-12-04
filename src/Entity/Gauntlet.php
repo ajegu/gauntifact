@@ -71,6 +71,11 @@ class Gauntlet
      */
     private $games;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $playedAt;
+
     public function __construct()
     {
         $this->status = self::STATUS_CURRENT;
@@ -247,5 +252,17 @@ class Gauntlet
     public function isLock()
     {
        return $this->getStatus() !== self::STATUS_CURRENT;
+    }
+
+    public function getPlayedAt(): ?\DateTimeInterface
+    {
+        return $this->playedAt;
+    }
+
+    public function setPlayedAt(?\DateTimeInterface $playedAt): self
+    {
+        $this->playedAt = $playedAt;
+
+        return $this;
     }
 }

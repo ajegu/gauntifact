@@ -144,4 +144,62 @@ class GauntletService
         $this->manager->persist($gauntlet);
         $this->manager->flush();
     }
+
+    /**
+     * @param Gauntlet $gauntlet
+     * @throws GauntletStatusException
+     */
+    public function deleteDeck(Gauntlet $gauntlet)
+    {
+        if ($gauntlet->getStatus() !== Gauntlet::STATUS_CURRENT) {
+            throw new GauntletStatusException("L'affrontement doit être en cours pour supprimer le deck");
+        }
+
+        $deck = $gauntlet->getDeck();
+
+        $gauntlet->setDeck(null);
+
+        $this->manager->persist($gauntlet);
+        $this->manager->remove($deck);
+
+        $this->manager->flush();
+    }
+
+    /**
+     * @param Gauntlet $gauntlet
+     * @throws GauntletNotNullException
+     * @throws GauntletStatusException
+     */
+    public function edit(Gauntlet $gauntlet)
+    {
+        if ($gauntlet->getStatus() !== Gauntlet::STATUS_CURRENT) {
+            throw new GauntletStatusException("L'affrontement doit être en cours pour être modifié");
+        }
+
+        if ($gauntlet->getUser() === null) {
+            throw new GauntletNotNullException("L'utilisateur ne peut pas être null");
+        }
+
+        if ($gauntlet->getDeck() === null) {
+            throw new GauntletNotNullException("Le deck ne peut pas être null");
+        }
+
+        $this->manager->persist($gauntlet);
+        $this->manager->flush();
+
+        $this->lockGauntletIfFinish($gauntlet);
+    }
+
+    /**
+     * @param Gauntlet $gauntlet
+     */
+    public function lockGauntletIfFinish(Gauntlet $gauntlet)
+    {
+        // Si le nombre max de game est atteint, on met à jour le statut de l'affrontement
+        if ($gauntlet->isPossibleToAddGame() === false) {
+            $gauntlet->setStatus(Gauntlet::STATUS_FINISH);
+            $this->manager->persist($gauntlet);
+            $this->manager->flush();
+        }
+    }
 }

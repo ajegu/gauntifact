@@ -1,4 +1,4 @@
-<div class="modal fade" id="modal-add-gauntlet" tabindex="-1" role="dialog">
+<div class="modal fade" id="modal-edit-gauntlet" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="modal-content">
@@ -22,6 +22,6 @@
 
 <script type="application/javascript">
     $(document).ready(function() {
-        $('form[name="gauntlet"]').submit(addGauntlet)
+        $('form[name="gauntlet"]').submit(editGauntlet)
     })
 </script>

@@ -29,7 +29,7 @@ class Deck
     private $deckCards;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Gauntlet", mappedBy="deck", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Gauntlet", mappedBy="deck")
      */
     private $gauntlets;
 

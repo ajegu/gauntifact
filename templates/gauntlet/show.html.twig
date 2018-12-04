@@ -16,6 +16,12 @@
                         </button>
                     {% endif %}
 
+                    {% if gauntlet.lock == false %}
+                        <button type="button" class="btn btn-secondary" id="btn-edit-gauntlet">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    {% endif %}
+
                     {% if gauntlet.lock %}
                         <button type="button" class="btn btn-primary" id="btn-unlock-gauntlet">
                             <i class="fas fa-lock"></i>
@@ -27,6 +33,7 @@
                     {% endif %}
                 </div>
             </h2>
+            <small class="text-center ml-4">{{ 'label.gauntlet_played_at'|trans }} {{ gauntlet.playedAt|localizeddate('short', 'short', app.request.locale) }}</small>
         </div>
         <div class="card-body row">
 
@@ -119,7 +126,7 @@
             $('#btn-unlock-gauntlet').click(unlockGauntlet)
             $('#btn-lock-gauntlet').click(lockGauntlet)
             $('#btn-concede-gauntlet').click(concedeGauntlet)
-
+            $('#btn-edit-gauntlet').click(showEditGauntlet)
         })
     </script>
 {% endblock %}

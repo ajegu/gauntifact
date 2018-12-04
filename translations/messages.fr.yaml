@@ -29,6 +29,7 @@ label.game_lose: Perdue
 label.game_draw: Match nul
 label.game: Game
 label.game_played_at: Jouée le
+label.gauntlet_played_at: Joué le
 
 
 btn.login: Se connecter
@@ -43,6 +44,7 @@ btn.concede_gauntlet: Abandonner l'affrontement
 
 
 success.add_gauntlet: L'affrontement a bien été crée !
+success.edit_gauntlet: L'affrontement a bien été modifié !
 success.unlock_gauntlet: L'affrontement a bien été dévérouillé !
 success.lock_gauntlet: L'affrontement a bien été vérouillé !
 success.concede_gauntlet: L'affrontement a bien été abandonné !

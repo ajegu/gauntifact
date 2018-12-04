@@ -128,3 +128,39 @@ window.concedeGauntlet = function()
         }
     })
 }
+
+/**
+ * Affiche le formulaire de modification
+ */
+window.showEditGauntlet = function()
+{
+    const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
+    const url = Routing.generate('app_gauntlet_edit', {id: gauntletId});
+
+    Utils.showFormModal({
+        btnSelector: '#btn-edit-gauntlet',
+        url: url,
+        modalSelector: '#modal-edit-gauntlet'
+    })
+}
+
+/**
+ * Modification d'un affrontement
+ * @param EventTarget e
+ */
+window.editGauntlet = function(e)
+{
+    e.preventDefault()
+
+    const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
+
+    Utils.submitFormModal({
+        url: Routing.generate('app_gauntlet_edit', {id: gauntletId}),
+        currentTarget: e.currentTarget,
+        modalSelector: '#modal-edit-gauntlet',
+        callback: function(data) {
+            const url = Routing.generate('app_gauntlet_show', {id: gauntletId})
+            Utils.redirect(url)
+        }
+    })
+}

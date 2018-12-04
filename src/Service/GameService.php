@@ -24,12 +24,19 @@ class GameService
     private $manager;
 
     /**
-     * DeckService constructor.
-     * @param EntityManagerInterface $manager
+     * @var GauntletService
      */
-    public function __construct(EntityManagerInterface $manager)
+    private $gauntletService;
+
+    /**
+     * GameService constructor.
+     * @param EntityManagerInterface $manager
+     * @param GauntletService $gauntletService
+     */
+    public function __construct(EntityManagerInterface $manager, GauntletService $gauntletService)
     {
         $this->manager = $manager;
+        $this->gauntletService = $gauntletService;
     }
 
     /**
@@ -54,7 +61,7 @@ class GameService
 
         // On ajoute la game à l'affrontement
         $gauntlet->addGame($game);
-        $this->lockGauntletIfFinish($gauntlet);
+        $this->gauntletService->lockGauntletIfFinish($gauntlet);
     }
 
     /**
@@ -116,7 +123,7 @@ class GameService
         $gauntlet->removeGame($game);
 
         // On vérouille l'affrontement si celui-ci est terminé
-        $this->lockGauntletIfFinish($gauntlet);
+        $this->gauntletService->lockGauntletIfFinish($gauntlet);
 
         // On remet à jour la numérotation des games
         $this->refreshNumber($game);
@@ -139,18 +146,7 @@ class GameService
         $this->manager->flush();
     }
 
-    /**
-     * @param Gauntlet $gauntlet
-     */
-    private function lockGauntletIfFinish(Gauntlet $gauntlet)
-    {
-        // Si le nombre max de game est atteint, on met à jour le statut de l'affrontement
-        if ($gauntlet->isPossibleToAddGame() === false) {
-            $gauntlet->setStatus(Gauntlet::STATUS_FINISH);
-            $this->manager->persist($gauntlet);
-            $this->manager->flush();
-        }
-    }
+
 
     /**
      * @param Game $game
@@ -178,6 +174,6 @@ class GameService
         $this->manager->persist($game);
         $this->manager->flush();
 
-        $this->lockGauntletIfFinish($game->getGauntlet());
+        $this->gauntletService->lockGauntletIfFinish($game->getGauntlet());
     }
 }
