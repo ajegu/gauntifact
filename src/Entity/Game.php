@@ -56,6 +56,16 @@ class Game
      */
     private $number;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $playedAt;
+
+    public function __construct()
+    {
+        $this->playedAt = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -129,6 +139,18 @@ class Game
     public function setNumber(int $number): self
     {
         $this->number = $number;
+
+        return $this;
+    }
+
+    public function getPlayedAt(): ?\DateTimeInterface
+    {
+        return $this->playedAt;
+    }
+
+    public function setPlayedAt(?\DateTimeInterface $playedAt): self
+    {
+        $this->playedAt = $playedAt;
 
         return $this;
     }

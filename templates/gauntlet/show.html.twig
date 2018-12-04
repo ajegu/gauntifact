@@ -9,8 +9,8 @@
                 {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }} | {{ gauntlet.type.name }}
 
                 {{ gauntletStatusBadge(gauntlet.status) }}
-                <div class="btn-group float-right" role="group">
-                    {% if gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CURRENT') %}
+                <div class="float-right" role="group">
+                    {% if gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CURRENT') and gauntlet.possibleToAddGame == true %}
                         <button type="button" class="btn btn-secondary" id="btn-concede-gauntlet">
                             {{ 'btn.concede_gauntlet'|trans }}
                         </button>
@@ -76,7 +76,7 @@
                                             <span class="badge badge-secondary">{{ 'label.game_draw'|trans }}</span>
                                         {% endif %}
                                     </span>
-                                    <small class="text-center ml-4">{{ 'label.game_played_at'|trans }} {{ game.created|localizeddate('short', 'short', app.request.locale) }}</small>
+                                    <small class="text-center ml-4">{{ 'label.game_played_at'|trans }} {{ game.playedAt|localizeddate('short', 'short', app.request.locale) }}</small>
 
                                     <div class="btn-group float-right" role="group">
                                         {% if game.opposingDeck is not null %}
@@ -85,7 +85,8 @@
                                                         class="fas fa-external-link-alt"></i></a>
                                         {% endif %}
                                         {% if gauntlet.lock == false %}
-                                            <button type="button" class="btn btn-secondary">
+                                            <button type="button" class="btn btn-secondary btn-edit-game"
+                                                    data-game-id="{{ game.id }}">
                                                 <i class="fas fa-edit"></i>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-delete-game"
@@ -113,6 +114,7 @@
     <script type="application/javascript">
         $(document).ready(function () {
             $('#btn-add-game').click(showAddGame)
+            $('.btn-edit-game').click(showEditGame)
             $('.btn-delete-game').click(showDeleteGame)
             $('#btn-unlock-gauntlet').click(unlockGauntlet)
             $('#btn-lock-gauntlet').click(lockGauntlet)

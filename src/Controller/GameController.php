@@ -66,6 +66,58 @@ class GameController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Game $game
+     * @param DeckService $deckService
+     * @param GameService $gameService
+     * @param TranslatorInterface $translator
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/edit-game/{id}", name="app_game_edit")
+     */
+    public function edit(Request $request, Game $game, DeckService $deckService, GameService $gameService, TranslatorInterface $translator)
+    {
+        $form = $this->createForm(GameType::class, $game, [
+            'gauntlet' => $game->getGauntlet(),
+            'gameId' => $game->getId()
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $deckCode = $form->get('deckCode')->getData();
+
+            if ($game->getOpposingDeck() !== null) {
+                if ($deckCode !== $game->getOpposingDeck()->getCode()) {
+                    // On supprime le deck adverse si il est différent du deck saisit
+                    $gameService->deleteOpposingDeck($game);
+                }
+
+            }
+
+            // On crée le deck adverse si le code est renseigné
+            if ($deckCode !== null) {
+                $deck = $deckService->createDeckFromCode($deckCode);
+                $game->setOpposingDeck($deck);
+            }
+
+            $gameService->edit($game);
+
+            $this->addFlash(
+                'success',
+                $translator->trans('success.edit_game')
+            );
+
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
+
+        return $this->render('game/edit.html.twig', [
+            'form' => $form->createView(),
+            'game' => $game
+        ]);
+    }
 
     /**
      * @param Request $request

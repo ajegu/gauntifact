@@ -4,6 +4,7 @@ title.register: Sign Up
 title.add_gauntlet: Add a gauntlet
 title.add_game: Add a game
 title.unlock_gauntlet: Unlock a gauntlet
+title.edit_game: Edit a game
 
 menu.dashboard: Dashboard
 menu.dashboard.gauntlet_history: Gauntlets history
@@ -39,11 +40,12 @@ btn.show: Show
 btn.concede_gauntlet: Concede gauntlet
 
 success.add_gauntlet: The gauntlet has been created successfully!
-success.add_game: The game has been created successfully!
-success.delete_game: The game has been deleted successfully!
 success.unlock_gauntlet: The gauntlet has been unlocked successfully!
 success.lock_gauntlet: The gauntlet has been locked successfully!
 success.concede_gauntlet: The gauntlet has been conceded successfully!
+success.add_game: The game has been created successfully!
+success.edit_game: The game has been updated successfully!
+success.delete_game: The game has been deleted successfully!
 
 error.unlock_gauntlet: You can't unlock this gauntlet because you already have one in progress!
 error.max_game_lose: You can't add a new game "lose" or "draw"

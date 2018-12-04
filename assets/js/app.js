@@ -18,6 +18,21 @@ require('popper.js')
 require('@fortawesome/fontawesome-free/js/all')
 require('bootstrap4-notify')
 require('datatables.net-bs4')
+require('pc-bootstrap4-datetimepicker')
+
+$.extend(true, $.fn.datetimepicker.defaults, {
+    icons: {
+        time: 'far fa-clock',
+        date: 'far fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check',
+        clear: 'far fa-trash-alt',
+        close: 'far fa-times-circle'
+    }
+});
 
 const Ladda = require('ladda')
 global.Ladda = Ladda

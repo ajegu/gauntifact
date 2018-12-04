@@ -39,7 +39,7 @@ class Deck
     private $code;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="opposingDeck", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Game", mappedBy="opposingDeck")
      */
     private $games;
 

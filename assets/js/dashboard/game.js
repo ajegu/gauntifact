@@ -35,6 +35,44 @@ window.addGame = function(e) {
 }
 
 /**
+ * Affiche la modal de modification d'une game
+ * @param EventTarget e
+ */
+window.showEditGame = function(e)
+{
+    const gameId = $(e.currentTarget).attr('data-game-id');
+    const url = Routing.generate('app_game_edit', {id: gameId});
+
+    Utils.showFormModal({
+        btnElement: e.currentTarget,
+        url: url,
+        modalSelector: '#modal-edit-game'
+    });
+}
+
+/**
+ * Modification d'une game
+ * @param EventTarget e
+ */
+window.editGame = function(e) {
+    e.preventDefault()
+
+    const gameId = $('.game').attr('data-game-id');
+    const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
+    const url = Routing.generate('app_game_edit', {id: gameId});
+
+    Utils.submitFormModal({
+        url: url,
+        currentTarget: e.currentTarget,
+        modalSelector: '#modal-edit-game',
+        callback: function() {
+            const url = Routing.generate('app_gauntlet_show', {id: gauntletId})
+            Utils.redirect(url)
+        }
+    })
+}
+
+/**
  * Affiche la modal de confirmation de suppression d'une game
  * @param EventTarget e
  */

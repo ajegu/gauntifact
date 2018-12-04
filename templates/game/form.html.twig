@@ -1,0 +1,50 @@
+<div class="form-group">
+    {{ form_label(form.status) }}
+    <div class="input-group">
+        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-trophy"></i>
+                            </span>
+        </div>
+        {{ form_widget(form.status) }}
+    </div>
+</div>
+
+<div class="form-group">
+    {{ form_label(form.deckCode) }}
+    <div class="input-group">
+        {{ form_widget(form.deckCode) }}
+        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-clone"></i>
+                            </span>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    {{ form_label(form.playedAt) }}
+    <div class="input-group">
+        {{ form_widget(form.playedAt) }}
+        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-calendar-alt"></i>
+                            </span>
+        </div>
+    </div>
+</div>
+
+{{ form_errors(form) }}
+
+{% if game is defined %}
+    <div class="game" data-game-id="{{ game.id }}"></div>
+{% endif %}
+
+<script type="application/javascript">
+    $(document).ready(function () {
+        $('input[name="game[playedAt]"]').datetimepicker({
+            locale: '{{ app.request.locale }}',
+            format: "YYYY-MM-DD HH:MM"
+        });
+    })
+</script>

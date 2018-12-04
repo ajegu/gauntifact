@@ -45,18 +45,7 @@ class GameService
 
         $gauntlet = $game->getGauntlet();
 
-        // On contrôle que le nombre de game de l'affrontement est < à 7
-        if (count($gauntlet->getGames()) == 7) {
-            throw new GauntletMaxGameException('Le nombre maximum de game (7) pour un affrontement est atteint');
-        }
-
-        if (count($gauntlet->getGamesWon()) === 5 && $game->getStatus() === Game::STATUS_WIN) {
-            throw new GauntletMaxGameException('Le nombre maximum de games gagnées (5) pour un affrontement est atteint');
-        }
-
-        if (count($gauntlet->getGamesLost()) === 2 && in_array($game->getStatus(), [Game::STATUS_DRAW, Game::STATUS_LOSE])) {
-            throw new GauntletMaxGameException('Le nombre maximum de games perdues (2) pour un affrontement est atteint');
-        }
+        $this->checkMaxGame($game);
 
         $game->setNumber(count($gauntlet->getGames()) + 1);
 
@@ -66,6 +55,47 @@ class GameService
         // On ajoute la game à l'affrontement
         $gauntlet->addGame($game);
         $this->lockGauntletIfFinish($gauntlet);
+    }
+
+    /**
+     * @param Game $game
+     * @throws GauntletMaxGameException
+     */
+    private function checkMaxGame(Game $game)
+    {
+        $gauntlet = $game->getGauntlet();
+
+        $gamesCount = 0;
+        $gamesWonCount = 0;
+        $gamesLoseCount = 0;
+        foreach ($gauntlet->getGames() as $gauntletGame) {
+
+            // On ignore la game en cours de modification
+            if ($gauntletGame->getId() === $game->getId()) {
+                continue;
+            }
+
+            $gamesCount++;
+
+            if ($gauntletGame->getStatus() === Game::STATUS_WIN) {
+                $gamesWonCount++;
+            } else {
+                $gamesLoseCount++;
+            }
+        }
+
+        // On contrôle que le nombre de game de l'affrontement est < à 7
+        if ($gamesCount == 7) {
+            throw new GauntletMaxGameException('Le nombre maximum de game (7) pour un affrontement est atteint');
+        }
+
+        if ($gamesWonCount === 5 && $game->getStatus() === Game::STATUS_WIN) {
+            throw new GauntletMaxGameException('Le nombre maximum de games gagnées (5) pour un affrontement est atteint');
+        }
+
+        if ($gamesLoseCount === 2 && in_array($game->getStatus(), [Game::STATUS_DRAW, Game::STATUS_LOSE])) {
+            throw new GauntletMaxGameException('Le nombre maximum de games perdues (2) pour un affrontement est atteint');
+        }
     }
 
     /**
@@ -120,5 +150,34 @@ class GameService
             $this->manager->persist($gauntlet);
             $this->manager->flush();
         }
+    }
+
+    /**
+     * @param Game $game
+     */
+    public function deleteOpposingDeck(Game $game)
+    {
+        $opposingDeck = $game->getOpposingDeck();
+
+        $game->setOpposingDeck(null);
+
+        $this->manager->persist($game);
+        $this->manager->remove($opposingDeck);
+
+        $this->manager->flush();
+    }
+
+    /**
+     * @param Game $game
+     * @throws GauntletMaxGameException
+     */
+    public function edit(Game $game)
+    {
+        $this->checkMaxGame($game);
+
+        $this->manager->persist($game);
+        $this->manager->flush();
+
+        $this->lockGauntletIfFinish($game->getGauntlet());
     }
 }
