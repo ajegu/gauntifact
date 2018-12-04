@@ -11,6 +11,7 @@
             <div class="modal-body">
                 {{ form_row(form.status) }}
                 {{ form_row(form.deckCode) }}
+                {{ form_errors(form) }}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'btn.close'|trans }}</button>

@@ -71,10 +71,18 @@ export function errorNotify(l = null)
 export function showFormModal(config)
 {
     let l;
+    let $btn;
     if (config.btnElement !== undefined) {
         l = Ladda.create( config.btnElement )
+        $btn = $(config.btnElement)
     } else if (config.btnSelector !== undefined) {
         l = Ladda.create( document.querySelector(config.btnSelector) )
+        $btn = $(config.btnSelector)
+    }
+
+    // Gestion du disabled
+    if ($btn.hasClass('disabled')) {
+        return false;
     }
 
     l.start()

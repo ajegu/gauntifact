@@ -44,6 +44,8 @@ success.unlock_gauntlet: The gauntlet has been unlocked successfully!
 success.lock_gauntlet: The gauntlet has been locked successfully!
 
 error.unlock_gauntlet: You can't unlock this gauntlet because you already have one in progress!
+error.max_game_lose: You can't add a new game "lose" or "draw"
+error.max_game_won: You can't add a new game "win"
 
 validator.deck_code_not_valid: The deck code is not valid.
 

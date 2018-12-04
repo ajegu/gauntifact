@@ -11,11 +11,11 @@
                 {{ gauntletStatusBadge(gauntlet.status) }}
                 {% if gauntlet.lock %}
                     <button type="button" class="btn btn-primary float-right" id="btn-unlock-gauntlet">
-                        <i class="fas fa-unlock"></i>
+                        <i class="fas fa-lock"></i>
                     </button>
                 {% elseif gauntlet.possibleToAddGame == false %}
                     <button type="button" class="btn btn-primary float-right" id="btn-lock-gauntlet">
-                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-unlock"></i>
                     </button>
                 {% endif %}
             </h2>
@@ -45,8 +45,8 @@
                 <div class="card">
                     <div class="card-header">
                         {{ 'label.your_games'|trans }}
-                        {% if gauntlet.possibleToAddGame %}
-                            <button type="button" class="btn btn-primary float-right" id="btn-add-game">
+                        {% if gauntlet.possibleToAddGame or gauntlet.lock == false %}
+                            <button type="button" class="btn btn-primary float-right {% if gauntlet.games|length >= 6 %}disabled{% endif %}"  id="btn-add-game">
                                 <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_game'|trans }}</span>
                             </button>
                         {% endif %}

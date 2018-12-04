@@ -50,11 +50,11 @@ class GameService
             throw new GauntletMaxGameException('Le nombre maximum de game (7) pour un affrontement est atteint');
         }
 
-        if (count($gauntlet->getGamesWon()) === 5) {
+        if (count($gauntlet->getGamesWon()) === 5 && $game->getStatus() === Game::STATUS_WIN) {
             throw new GauntletMaxGameException('Le nombre maximum de games gagnées (5) pour un affrontement est atteint');
         }
 
-        if (count($gauntlet->getGamesLost()) === 2) {
+        if (count($gauntlet->getGamesLost()) === 2 && in_array($game->getStatus(), [Game::STATUS_DRAW, Game::STATUS_LOSE])) {
             throw new GauntletMaxGameException('Le nombre maximum de games perdues (2) pour un affrontement est atteint');
         }
 

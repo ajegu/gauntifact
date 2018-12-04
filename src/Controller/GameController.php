@@ -34,7 +34,9 @@ class GameController extends AbstractController
     {
         $game = new Game();
 
-        $form = $this->createForm(GameType::class, $game);
+        $form = $this->createForm(GameType::class, $game, [
+            'gauntlet' => $gauntlet
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

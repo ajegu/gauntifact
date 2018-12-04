@@ -45,6 +45,8 @@ success.unlock_gauntlet: L'affrontement a bien été dévérouillé !
 success.lock_gauntlet: L'affrontement a bien été vérouillé !
 
 error.unlock_gauntlet: Vous ne pouvez pas débloquer cette affrontement car vous en avez déjà un en cours !
+error.max_game_lose: Vous ne pouvez pas ajouter de nouvelle game "perdue" ou "match nul"
+error.max_game_win: Vous ne pouvez pas ajouter de nouvelle game "gagnée"
 
 
 validator.deck_code_not_valid: Le code du deck n'est pas valide.
