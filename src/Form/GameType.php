@@ -78,22 +78,34 @@ class GameType extends AbstractType
         $form = $event->getForm();
         $data = $event->getData();
 
-        // On compte le nombre de game avec le statut de la nouvelle game
-        $count = 0;
-        foreach ($this->gauntlet->getGames() as $game) {
-            if ($game->getStatus() === $data['status']) {
-                $count++;
+        // On compte le nombre de game perdu ou nulle
+        if ($data['status'] === Game::STATUS_LOSE || $data['status'] === Game::STATUS_DRAW) {
+            $count = 0;
+            foreach ($this->gauntlet->getGames() as $game) {
+                if (in_array($game->getStatus(), [Game::STATUS_LOSE, Game::STATUS_DRAW])) {
+                    $count++;
+                }
             }
-        }
 
-        if (Game::STATUS_WIN === $data['status'] && $count === 5) {
-            $form->addError(new FormError(
-                $this->translator->trans('error.max_game_won')
-            ));
-        } else if ($count === 2) {
-            $form->addError(new FormError(
-                $this->translator->trans('error.max_game_lose')
-            ));
+            if ($count === 2) {
+                $form->addError(new FormError(
+                    $this->translator->trans('error.max_game_lose')
+                ));
+            }
+        } else {
+            // On compte le nombre de game gagnée
+            $count = 0;
+            foreach ($this->gauntlet->getGames() as $game) {
+                if ($game->getStatus() === Game::STATUS_WIN) {
+                    $count++;
+                }
+            }
+
+            if ($count === 5) {
+                $form->addError(new FormError(
+                    $this->translator->trans('error.max_game_won')
+                ));
+            }
         }
     }
 
