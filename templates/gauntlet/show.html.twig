@@ -67,7 +67,7 @@
                             {% for game in gauntlet.games %}
                                 <li class="list-group-item">
                                     <span>
-                                        {{ 'label.game'|trans }} #{{ loop.index }}
+                                        {{ 'label.game'|trans }} #{{ game.number }}
                                         {% if game.status == constant('App\\Entity\\Game::STATUS_WIN') %}
                                             <span class="badge badge-success">{{ 'label.game_win'|trans }}</span>
                                         {% elseif game.status == constant('App\\Entity\\Game::STATUS_LOSE') %}

@@ -58,6 +58,8 @@ class GameService
             throw new GauntletMaxGameException('Le nombre maximum de games perdues (2) pour un affrontement est atteint');
         }
 
+        $game->setNumber(count($gauntlet->getGames()) + 1);
+
         $this->manager->persist($game);
         $this->manager->flush();
 
@@ -82,7 +84,29 @@ class GameService
         $this->manager->flush();
 
         $gauntlet->removeGame($game);
+
+        // On vérouille l'affrontement si celui-ci est terminé
         $this->lockGauntletIfFinish($gauntlet);
+
+        // On remet à jour la numérotation des games
+        $this->refreshNumber($game);
+    }
+
+    /**
+     * @param Game $deletedGame
+     */
+    private function refreshNumber(Game $deletedGame)
+    {
+        $gauntlet = $deletedGame->getGauntlet();
+
+        foreach ($gauntlet->getGames() as $game) {
+            if ($game->getNumber() > $deletedGame->getNumber()) {
+                $game->setNumber($game->getNumber() - 1);
+                $this->manager->persist($game);
+            }
+        }
+
+        $this->manager->flush();
     }
 
     /**

@@ -51,6 +51,11 @@ class Game
      */
     private $gauntlet;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $number;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -112,6 +117,18 @@ class Game
     public function setGauntlet(?Gauntlet $gauntlet): self
     {
         $this->gauntlet = $gauntlet;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }
