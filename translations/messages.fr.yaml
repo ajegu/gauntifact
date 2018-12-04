@@ -37,12 +37,16 @@ btn.add_gauntlet: Ajouter un affrontement
 btn.close: Fermer
 btn.add_game: Ajouter une game
 btn.show: Afficher
+btn.concede_gauntlet: Abandonner l'affrontement
+
 
 success.add_gauntlet: L'affrontement a bien été crée !
 success.add_game: La game a bien été crée !
 success.delete_game: La game a bien été supprimé !
 success.unlock_gauntlet: L'affrontement a bien été dévérouillé !
 success.lock_gauntlet: L'affrontement a bien été vérouillé !
+success.concede_gauntlet: L'affrontement a bien été abandonné !
+
 
 error.unlock_gauntlet: Vous ne pouvez pas débloquer cette affrontement car vous en avez déjà un en cours !
 error.max_game_lose: Vous ne pouvez pas ajouter de nouvelle game "perdue" ou "match nul"

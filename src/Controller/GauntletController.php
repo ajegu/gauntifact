@@ -143,4 +143,27 @@ class GauntletController extends AbstractController
             'success' => true
         ]);
     }
+
+    /**
+     * @param Gauntlet $gauntlet
+     * @param GauntletService $gauntletService
+     * @param TranslatorInterface $translator
+     * @return JsonResponse
+     * @throws \App\Exception\GauntletStatusException
+     *
+     * @Route("/concede-gauntlet/{id}", name="app_gauntlet_concede")
+     */
+    public function concede(Gauntlet $gauntlet, GauntletService $gauntletService, TranslatorInterface $translator)
+    {
+        $gauntletService->concede($gauntlet);
+
+        $this->addFlash(
+            'success',
+            $translator->trans('success.concede_gauntlet')
+        );
+
+        return new JsonResponse([
+            'success' => true
+        ]);
+    }
 }

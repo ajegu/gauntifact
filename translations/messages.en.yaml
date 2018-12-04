@@ -36,12 +36,14 @@ btn.add_gauntlet: Add a gauntlet
 btn.close: Close
 btn.add_game: Add game
 btn.show: Show
+btn.concede_gauntlet: Concede gauntlet
 
 success.add_gauntlet: The gauntlet has been created successfully!
 success.add_game: The game has been created successfully!
 success.delete_game: The game has been deleted successfully!
 success.unlock_gauntlet: The gauntlet has been unlocked successfully!
 success.lock_gauntlet: The gauntlet has been locked successfully!
+success.concede_gauntlet: The gauntlet has been conceded successfully!
 
 error.unlock_gauntlet: You can't unlock this gauntlet because you already have one in progress!
 error.max_game_lose: You can't add a new game "lose" or "draw"

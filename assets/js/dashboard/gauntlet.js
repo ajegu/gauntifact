@@ -10,7 +10,7 @@ window.showAddGauntlet = function()
         btnSelector: '#btn-show-add-gauntlet',
         url: url,
         modalSelector: '#modal-add-gauntlet'
-    });
+    })
 }
 
 /**
@@ -32,6 +32,9 @@ window.addGauntlet = function(e)
     })
 }
 
+/**
+ * Dévérouiller un affrontement
+ */
 window.unlockGauntlet = function()
 {
     const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
@@ -67,9 +70,12 @@ window.unlockGauntlet = function()
         error: function () {
             Utils.errorNotify(l)
         }
-    });
+    })
 }
 
+/**
+ * Vérouiller un affrontement
+ */
 window.lockGauntlet = function()
 {
     const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
@@ -92,5 +98,33 @@ window.lockGauntlet = function()
         error: function () {
             Utils.errorNotify(l)
         }
-    });
+    })
+}
+
+/**
+ * Concéder un affrontement
+ */
+window.concedeGauntlet = function()
+{
+    const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
+    const url = Routing.generate('app_gauntlet_concede', {id: gauntletId})
+
+    const l = Ladda.create( document.querySelector('#btn-concede-gauntlet') )
+
+    l.start()
+
+    $.ajax(url, {
+        success: function (data) {
+            l.stop()
+
+            if (data.success) {
+                const url = Routing.generate('app_gauntlet_show', {id: gauntletId})
+                Utils.redirect(url)
+            }
+
+        },
+        error: function () {
+            Utils.errorNotify(l)
+        }
+    })
 }

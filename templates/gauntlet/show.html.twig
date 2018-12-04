@@ -9,15 +9,23 @@
                 {{ 'label.gauntlet'|trans }} #{{ gauntlet.number }} | {{ gauntlet.type.name }}
 
                 {{ gauntletStatusBadge(gauntlet.status) }}
-                {% if gauntlet.lock %}
-                    <button type="button" class="btn btn-primary float-right" id="btn-unlock-gauntlet">
-                        <i class="fas fa-lock"></i>
-                    </button>
-                {% elseif gauntlet.possibleToAddGame == false %}
-                    <button type="button" class="btn btn-primary float-right" id="btn-lock-gauntlet">
-                        <i class="fas fa-unlock"></i>
-                    </button>
-                {% endif %}
+                <div class="btn-group float-right" role="group">
+                    {% if gauntlet.status == constant('App\\Entity\\Gauntlet::STATUS_CURRENT') %}
+                        <button type="button" class="btn btn-secondary" id="btn-concede-gauntlet">
+                            {{ 'btn.concede_gauntlet'|trans }}
+                        </button>
+                    {% endif %}
+
+                    {% if gauntlet.lock %}
+                        <button type="button" class="btn btn-primary" id="btn-unlock-gauntlet">
+                            <i class="fas fa-lock"></i>
+                        </button>
+                    {% elseif gauntlet.possibleToAddGame == false %}
+                        <button type="button" class="btn btn-primary" id="btn-lock-gauntlet">
+                            <i class="fas fa-unlock"></i>
+                        </button>
+                    {% endif %}
+                </div>
             </h2>
         </div>
         <div class="card-body row">
@@ -45,8 +53,10 @@
                 <div class="card">
                     <div class="card-header">
                         {{ 'label.your_games'|trans }}
-                        {% if gauntlet.possibleToAddGame or gauntlet.lock == false %}
-                            <button type="button" class="btn btn-primary float-right {% if gauntlet.games|length >= 6 %}disabled{% endif %}"  id="btn-add-game">
+                        {% if gauntlet.lock == false %}
+                            <button type="button"
+                                    class="btn btn-primary float-right {% if gauntlet.games|length >= 6 %}disabled{% endif %}"
+                                    id="btn-add-game">
                                 <span class="ladda-label"><i class="fas fa-plus"></i> {{ 'btn.add_game'|trans }}</span>
                             </button>
                         {% endif %}
@@ -106,6 +116,7 @@
             $('.btn-delete-game').click(showDeleteGame)
             $('#btn-unlock-gauntlet').click(unlockGauntlet)
             $('#btn-lock-gauntlet').click(lockGauntlet)
+            $('#btn-concede-gauntlet').click(concedeGauntlet)
 
         })
     </script>

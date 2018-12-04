@@ -13,6 +13,7 @@ use App\Entity\Gauntlet;
 use App\Entity\User;
 use App\Exception\GauntletLockException;
 use App\Exception\GauntletNotNullException;
+use App\Exception\GauntletStatusException;
 use Doctrine\ORM\EntityManagerInterface;
 
 class GauntletService
@@ -115,10 +116,30 @@ class GauntletService
     {
         // On contrôle que l'affrontement est bien terminé
         if ($gauntlet->isPossibleToAddGame() === true) {
-            throw new GauntletLockException(sprintf("L'affrontement %s ne peut pas être vérrouillé car il est toujours possibles d'ajouter des games"), $gauntlet->getId());
+            throw new GauntletLockException(
+                sprintf("L'affrontement %s ne peut pas être vérrouillé car il est toujours possibles d'ajouter des games"), $gauntlet->getId()
+            );
         }
 
         $gauntlet->setStatus(Gauntlet::STATUS_FINISH);
+
+        $this->manager->persist($gauntlet);
+        $this->manager->flush();
+    }
+
+    /**
+     * @param Gauntlet $gauntlet
+     * @throws GauntletStatusException
+     */
+    public function concede(Gauntlet $gauntlet)
+    {
+        if ($gauntlet->getStatus() !== Gauntlet::STATUS_CURRENT) {
+            throw new GauntletStatusException(
+                sprintf("L'affrontement %s ne peut pas être abandonné car il n'est pas au statut : %s", $gauntlet->getId(), Gauntlet::STATUS_CURRENT)
+            );
+        }
+
+        $gauntlet->setStatus(Gauntlet::STATUS_CONCEDED);
 
         $this->manager->persist($gauntlet);
         $this->manager->flush();
