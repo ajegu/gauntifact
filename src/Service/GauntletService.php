@@ -81,16 +81,37 @@ class GauntletService
 
     /**
      * @param User $user
+     * @param int $start
+     * @param int $length
+     * @param string $orderName
+     * @param string $orderDir
      * @return Gauntlet[]
      */
-    public function list(User $user)
+    public function list(User $user, $start = 0, $length = 10, $orderName = 'playedAt', $orderDir = 'desc')
     {
         $gauntlets = $this->manager->getRepository(Gauntlet::class)
             ->findBy([
                 'user' => $user
-            ]);
+            ], [
+                $orderName => $orderDir
+            ],
+                $length,
+                $start
+            );
 
         return $gauntlets;
+    }
+
+    /**
+     * @param User $user
+     * @return int
+     */
+    public function getTotalGauntlets(User $user)
+    {
+        $count = $this->manager->getRepository(Gauntlet::class)
+            ->count(['user' => $user]);
+
+        return $count;
     }
 
     /**

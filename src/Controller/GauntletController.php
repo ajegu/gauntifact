@@ -11,24 +11,71 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Intl\Intl;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class GauntletController extends AbstractController
 {
     /**
+     * @param Request $request
      * @param GauntletService $gauntletService
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param TranslatorInterface $translator
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      *
      * @Route("/gauntlet-list", name="app_gauntlet_list")
      */
-    public function list(GauntletService $gauntletService)
+    public function list(Request $request, GauntletService $gauntletService, TranslatorInterface $translator)
     {
-        $gauntlets = $gauntletService->list($this->getUser());
-
-        return $this->render('gauntlet/list.html.twig', [
-            'gauntlets' => $gauntlets,
+        $draw = $request->get('draw', 1);
+        $length = $request->get('length', 10);
+        $start = $request->get('start', 0);
+        $order = $request->get('order', [
+            "column" => "1",
+            "dir" => "desc"
         ]);
+
+        $columnsMapping = [
+            '0' => 'number',
+            '1' => 'playedAt',
+            '2' => 'type',
+            '3' => 'status'
+        ];
+
+        $orderName = $columnsMapping[$order[0]['column']];
+        $orderDir = $order[0]['dir'];
+
+        $dateFormatter = new \IntlDateFormatter($request->getLocale(), \IntlDateFormatter::SHORT, \IntlDateFormatter::SHORT);
+
+        $total = $gauntletService->getTotalGauntlets($this->getUser());
+        $gauntlets = $gauntletService->list($this->getUser(), $start, $length, $orderName, $orderDir);
+
+        $result = [
+            'draw' => $draw,
+            'recordsTotal' => $total,
+            'recordsFiltered' => $total,
+        ];
+
+        foreach ($gauntlets as $gauntlet) {
+            $result['data'][] = [
+                'id' => $gauntlet->getId(),
+                'number' => $gauntlet->getNumber(),
+                'playedAt' => $dateFormatter->format($gauntlet->getPlayedAt()),
+                'type' => $gauntlet->getType()->getName(),
+                'status' => $gauntlet->getStatus(),
+                'actions' => $translator->trans('btn.show')
+            ];
+        }
+
+        return new JsonResponse($result);
+    }
+
+    /**
+     * @Route("/gauntlet-show-history", name="app_gauntlet_show_history")
+     */
+    public function showHistory()
+    {
+        return $this->render('gauntlet/show_history.html.twig');
     }
 
     /**

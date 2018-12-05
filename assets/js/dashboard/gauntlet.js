@@ -197,7 +197,7 @@ window.deleteGauntlet = function(e) {
         currentTarget: e.currentTarget,
         modalSelector: '#modal-delete-gauntlet',
         callback: function() {
-            const url = Routing.generate('app_gauntlet_list')
+            const url = Routing.generate('app_gauntlet_show_history')
             Utils.redirect(url)
         }
     })

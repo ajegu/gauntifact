@@ -37,7 +37,7 @@ class GauntletStatusExtension extends AbstractExtension
             $cssClass = 'warning';
             $label = 'label.gauntlet_current';
         } else {
-            $cssClass = 'danger';
+            $cssClass = 'secondary';
             $label = 'label.gauntlet_conceded';
         }
 

@@ -142,11 +142,14 @@ class FakeDataCommand extends Command
                 'email' => 'jerho@live.fr'
             ]);
 
-        for ($i = 0; $i < 100; $i++) {
+        $playedAt = new \DateTime();
+        $int = new \DateInterval("P30D");
+        $playedAt->sub($int);
 
-            $playedAt = new \DateTime();
-            $int = new \DateInterval("P".rand(0,6)."D");
-            $playedAt->sub($int);
+        for ($i = 0; $i < 9999; $i++) {
+
+            $int = new \DateInterval("PT".rand(1,3)."H");
+            $playedAt->add($int);
 
             $gauntletTypeIndex = rand(0, count($gauntletTypes) - 1);
             $gauntletTypeName = $gauntletTypes[$gauntletTypeIndex];
