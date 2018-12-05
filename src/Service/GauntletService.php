@@ -62,6 +62,10 @@ class GauntletService
             throw new GauntletNotNullException("Le deck ne peut pas être null");
         }
 
+        if ($gauntlet->getType() === null) {
+            throw new GauntletNotNullException("Le type d'affrontement ne peut pas être null");
+        }
+
         // On calcule le numéro de l'affrontement
         $gauntlets = $this->manager->getRepository(Gauntlet::class)
             ->findBy([

@@ -16,7 +16,6 @@ class GauntletFixtures extends Fixture
             'Expert - Keeper Draft' => 'Expert - Keeper Draft',
             'Casual - Constructed' => 'Occasionel - Construit',
             'Casual - Phantom Draft' => 'Occasionel - Fantôme Draft',
-            'Casual - Keeper Draft' => 'Occasionel - Keeper Draft',
         ];
 
         foreach ($data as $en => $fr) {

@@ -39,6 +39,17 @@ class UserFixtures extends Fixture
         ));
         $manager->persist($adminUser);
 
+        $user = new User();
+        $user->setEmail('jerho@live.fr')
+            ->setPseudo('Jerho')
+            ->setRoles(['ROLE_USER']);
+
+        $user->setPassword($this->passwordEncoder->encodePassword(
+            $user,
+            '123456'
+        ));
+        $manager->persist($user);
+
         $manager->flush();
     }
 }
