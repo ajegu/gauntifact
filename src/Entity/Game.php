@@ -61,11 +61,6 @@ class Game
      */
     private $playedAt;
 
-    public function __construct()
-    {
-        $this->playedAt = new \DateTime();
-    }
-
     public function getId(): ?int
     {
         return $this->id;

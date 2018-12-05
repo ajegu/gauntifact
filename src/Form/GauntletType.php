@@ -49,7 +49,7 @@ class GauntletType extends AbstractType
             ->add('playedAt', DateTimeType::class, [
                 'label' => 'label.game_played_at',
                 'widget' => 'single_text',
-                'format' => 'Y-M-d H:i',
+                'format' => "YYYY-MM-DD HH:mm",
                 'constraints' => [
                     new NotBlank(),
                     new Range([
