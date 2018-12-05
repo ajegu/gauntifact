@@ -9,6 +9,7 @@
 namespace App\Service;
 
 
+use App\Entity\Deck;
 use App\Entity\Gauntlet;
 use App\Entity\User;
 use App\Exception\GauntletLockException;
@@ -149,18 +150,18 @@ class GauntletService
      * @param Gauntlet $gauntlet
      * @throws GauntletStatusException
      */
-    public function deleteDeck(Gauntlet $gauntlet)
+    public function changeDeck(Gauntlet $gauntlet, Deck $newDeck)
     {
         if ($gauntlet->getStatus() !== Gauntlet::STATUS_CURRENT) {
             throw new GauntletStatusException("L'affrontement doit être en cours pour supprimer le deck");
         }
 
-        $deck = $gauntlet->getDeck();
+        $oldDeck = $gauntlet->getDeck();
 
-        $gauntlet->setDeck(null);
+        $gauntlet->setDeck($newDeck);
 
         $this->manager->persist($gauntlet);
-        $this->manager->remove($deck);
+        $this->manager->remove($oldDeck);
 
         $this->manager->flush();
     }

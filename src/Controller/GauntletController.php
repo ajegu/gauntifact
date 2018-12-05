@@ -190,11 +190,8 @@ class GauntletController extends AbstractController
             $deckCode = $form->get('deckCode')->getData();
 
             if ($deckCode !== $gauntlet->getDeck()->getCode()) {
-
-                $gauntletService->deleteDeck($gauntlet);
-
                 $deck = $deckService->createDeckFromCode($deckCode);
-                $gauntlet->setDeck($deck);
+                $gauntletService->changeDeck($gauntlet, $deck);
             }
 
             $gauntletService->edit($gauntlet);
