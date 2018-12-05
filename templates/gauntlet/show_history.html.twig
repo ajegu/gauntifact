@@ -13,6 +13,7 @@
                     <th>Date</th>
                     <th>Type</th>
                     <th>Status</th>
+                    <th>Score</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -55,23 +56,33 @@
                     { data: 'type'},
                     {
                         data: 'status',
-                        render: function(data) {
+                        render: function(data, type, row) {
                             let cssClass;
                             let label;
-                            if (data ==  '{{ constant('App\\Entity\\Gauntlet::STATUS_FINISH') }}') {
-                                cssClass = 'success'
-                                label = '{{ 'label.gauntlet_finish'|trans }}';
-                            } else if (data ==  '{{ constant('App\\Entity\\Gauntlet::STATUS_CONCEDED') }}') {
-                                cssClass = 'secondary'
-                                label = '{{ 'label.gauntlet_conceded'|trans }}';
-                            } else {
+                            if (data ==  '{{ constant('App\\Entity\\Gauntlet::STATUS_CURRENT') }}') {
                                 cssClass = 'warning'
                                 label = '{{ 'label.gauntlet_current'|trans }}';
+                            } else {
+                                if (row.countGamesWon == 5) {
+                                    label = '{{ 'label.gauntlet_win'|trans }}'
+                                    cssClass = 'success'
+                                } else {
+                                    label = '{{ 'label.gauntlet_lose'|trans }}'
+                                    cssClass = 'danger'
+                                }
                             }
 
                             return `<h2 class="badge badge-${cssClass}">${label}</h2>`
                         },
                         className: 'text-center'
+                    },
+                    {
+                        data: 'score',
+                        className: 'text-center',
+                        orderable: false,
+                        render: function(value, type, row) {
+                            return `<span class="text-success">${row.countGamesWon}</span> - <span class="text-danger">${row.countGamesLost}</span>`
+                        }
                     },
                     {
                         data: 'actions',

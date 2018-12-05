@@ -63,7 +63,9 @@ class GauntletController extends AbstractController
                 'playedAt' => $dateFormatter->format($gauntlet->getPlayedAt()),
                 'type' => $gauntlet->getType()->getName(),
                 'status' => $gauntlet->getStatus(),
-                'actions' => $translator->trans('btn.show')
+                'actions' => $translator->trans('btn.show'),
+                'countGamesWon' => count($gauntlet->getGamesWon()),
+                'countGamesLost' => count($gauntlet->getGamesLost()),
             ];
         }
 

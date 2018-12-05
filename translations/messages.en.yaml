@@ -24,6 +24,8 @@ label.your_games: Your games
 label.gauntlet_current: Current
 label.gauntlet_finish: Finish
 label.gauntlet_conceded: Conceded
+label.gauntlet_win: Win
+label.gauntlet_lose: Lose
 label.game_status: Status
 label.game_win: Win
 label.game_lose: Lose

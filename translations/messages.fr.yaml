@@ -25,6 +25,8 @@ label.your_deck: Votre deck
 label.your_games: Vos games
 label.gauntlet_current: En cours
 label.gauntlet_finish: Terminé
+label.gauntlet_win: Gagné
+label.gauntlet_lose: Perdu
 label.gauntlet_conceded: Abandonné
 label.game_status: Etat
 label.game_win: Gagnée
