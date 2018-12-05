@@ -66,6 +66,7 @@ class GameController extends AbstractController
         ]);
     }
 
+
     /**
      * @param Request $request
      * @param Game $game
@@ -73,6 +74,8 @@ class GameController extends AbstractController
      * @param GameService $gameService
      * @param TranslatorInterface $translator
      * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \App\Exception\CardNotFoundException
+     * @throws \App\Exception\GauntletMaxGameException
      *
      * @Route("/edit-game/{id}", name="app_game_edit")
      */

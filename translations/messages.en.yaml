@@ -2,8 +2,11 @@ title.home: Hello, world!
 title.login: Sign In
 title.register: Sign Up
 title.add_gauntlet: Add a gauntlet
-title.add_game: Add a game
+title.edit_gauntlet: Edit a gauntlet
+title.delete_gauntlet: Delete a gauntlet
 title.unlock_gauntlet: Unlock a gauntlet
+title.add_game: Add a game
+title.delete_game: Delete a game
 title.edit_game: Edit a game
 
 menu.dashboard: Dashboard
@@ -45,6 +48,7 @@ success.edit_gauntlet: The gauntlet has been updated successfully!
 success.unlock_gauntlet: The gauntlet has been unlocked successfully!
 success.lock_gauntlet: The gauntlet has been locked successfully!
 success.concede_gauntlet: The gauntlet has been conceded successfully!
+success.delete_gauntlet: The gauntlet has been deleted successfully!
 success.add_game: The game has been created successfully!
 success.edit_game: The game has been updated successfully!
 success.delete_game: The game has been deleted successfully!
@@ -55,3 +59,5 @@ error.max_game_won: You can't add a new game "win"
 
 validator.deck_code_not_valid: The deck code is not valid.
 
+question.delete_game: Do you confirm the removal of the game
+question.delete_gauntlet: Do you confirm the removal of the gauntlet

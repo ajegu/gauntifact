@@ -203,4 +203,27 @@ class GauntletService
             $this->manager->flush();
         }
     }
+
+    /**
+     * @param Gauntlet $gauntlet
+     */
+    public function delete(Gauntlet $gauntlet)
+    {
+        // On supprimer les games
+        foreach ($gauntlet->getGames() as $game) {
+            if ($game->getOpposingDeck() !== null) {
+                $this->manager->remove($game->getOpposingDeck());
+            }
+
+            $this->manager->remove($game);
+        }
+
+        // On supprime le deck
+        $this->manager->remove($gauntlet->getDeck());
+
+        // On supprime l'affrontement
+        $this->manager->remove($gauntlet);
+
+        $this->manager->flush();
+    }
 }

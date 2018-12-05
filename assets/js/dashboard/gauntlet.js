@@ -164,3 +164,41 @@ window.editGauntlet = function(e)
         }
     })
 }
+
+/**
+ * Affiche la modal de confirmation de suppression d'un affrontement
+ * @param EventTarget e
+ */
+window.showDeleteGauntlet = function(e)
+{
+    const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
+    const url = Routing.generate('app_gauntlet_delete', {id: gauntletId});
+
+    Utils.showFormModal({
+        btnElement: e.currentTarget,
+        url: url,
+        modalSelector: '#modal-delete-gauntlet'
+    });
+}
+
+/**
+ * Suppression d'une game
+ * @param EventTarget e
+ */
+window.deleteGauntlet = function(e) {
+    e.preventDefault()
+
+    const gauntletId = $('.gauntlet').attr('data-gauntlet-id');
+
+    const url = Routing.generate('app_gauntlet_delete', {id: gauntletId});
+
+    Utils.submitFormModal({
+        url: url,
+        currentTarget: e.currentTarget,
+        modalSelector: '#modal-delete-gauntlet',
+        callback: function() {
+            const url = Routing.generate('app_gauntlet_list')
+            Utils.redirect(url)
+        }
+    })
+}

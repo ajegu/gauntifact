@@ -1,17 +1,16 @@
-<div class="modal fade" id="modal-delete-game" tabindex="-1" role="dialog">
+<div class="modal fade" id="modal-delete-gauntlet" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{ 'title.delete_game'|trans }}</h5>
+                <h5 class="modal-title">{{ 'title.delete_gauntlet'|trans }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 {{ form_widget(form) }}
-                {{ 'question.delete_game'|trans }} #{{ game.number }} ?
-                <div class="game" data-game-id="{{ game.id }}"></div>
+                {{ 'question.delete_gauntlet'|trans }} #{{ gauntlet.number }} ?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'btn.close'|trans }}</button>
@@ -24,6 +23,6 @@
 
 <script type="application/javascript">
     $(document).ready(function() {
-        $('form[name="form"]').submit(deleteGame)
+        $('form[name="form"]').submit(deleteGauntlet)
     })
 </script>

@@ -20,6 +20,9 @@
                         <button type="button" class="btn btn-secondary" id="btn-edit-gauntlet">
                             <i class="fas fa-edit"></i>
                         </button>
+                        <button type="button" class="btn btn-secondary" id="btn-delete-gauntlet">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
                     {% endif %}
 
                     {% if gauntlet.lock %}
@@ -127,6 +130,7 @@
             $('#btn-lock-gauntlet').click(lockGauntlet)
             $('#btn-concede-gauntlet').click(concedeGauntlet)
             $('#btn-edit-gauntlet').click(showEditGauntlet)
+            $('#btn-delete-gauntlet').click(showDeleteGauntlet)
         })
     </script>
 {% endblock %}

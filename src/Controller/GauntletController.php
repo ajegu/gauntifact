@@ -8,6 +8,7 @@ use App\Form\GauntletType;
 use App\Service\DeckService;
 use App\Service\GauntletService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -208,6 +209,40 @@ class GauntletController extends AbstractController
 
         return $this->render('gauntlet/edit.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param Gauntlet $gauntlet
+     * @param GauntletService $gauntletService
+     * @param TranslatorInterface $translator
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/delete-gauntlet/{id}", name="app_gauntlet_delete")
+     */
+    public function delete(Request $request, Gauntlet $gauntlet, GauntletService $gauntletService, TranslatorInterface $translator)
+    {
+        $form = $this->createForm(FormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $gauntletService->delete($gauntlet);
+
+            $this->addFlash(
+                'success',
+                $translator->trans('success.delete_gauntlet')
+            );
+
+            return new JsonResponse([
+                'success' => true
+            ]);
+        }
+
+        return $this->render('gauntlet/delete.html.twig', [
+            'form' => $form->createView(),
+            'gauntlet' => $gauntlet
         ]);
     }
 }
