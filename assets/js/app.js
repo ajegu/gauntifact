@@ -37,6 +37,8 @@ $.extend(true, $.fn.datetimepicker.defaults, {
 const Ladda = require('ladda')
 global.Ladda = Ladda
 
+require('chart.js')
+
 const routes = require('../../public/js/fos_js_routes.json');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js'
 
