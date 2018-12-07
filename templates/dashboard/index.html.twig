@@ -14,18 +14,18 @@
 
                     </ul>
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-outline-secondary active">{{ 'label.today'|trans }}</button>
-                        <button type="button" class="btn btn-outline-secondary">{{ 'label.this_week'|trans }}</button>
-                        <button type="button" class="btn btn-outline-secondary">{{ 'label.this_month'|trans }}</button>
-                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+                        <button id="btn-today-stats" type="button" class="btn btn-secondary active">{{ 'label.today'|trans }}</button>
+                        <button id="btn-week-stats" type="button" class="btn btn-secondary">{{ 'label.this_week'|trans }}</button>
+                        <button id="btn-month-stats" type="button" class="btn btn-secondary">{{ 'label.this_month'|trans }}</button>
+                        <button id="btn-show-custom-stats" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
                             {{ 'label.custom_dates'|trans }}
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <form class="px-4 py-3">
                                 <div class="form-group">
-                                    <label for="dateDebut">Date début</label>
+                                    <label for="txtStartDate">Date début</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="dateDebut">
+                                        <input type="text" class="form-control" id="txtStartDate">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="fas fa-calendar-alt"></i>
@@ -34,9 +34,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="dateFin">Date fin</label>
+                                    <label for="txtEndDate">Date fin</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="dateFin">
+                                        <input type="text" class="form-control" id="txtEndDate">
                                         <div class="input-group-append">
                                             <span class="input-group-text">
                                                 <i class="fas fa-calendar-alt"></i>
@@ -44,44 +44,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-primary">{{ 'btn.submit'|trans }}</button>
+                                <button id="btn-custom-date" type="button" class="btn btn-primary">{{ 'btn.submit'|trans }}</button>
                             </form>
                         </div>
                     </div>
 
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="card">
-                            <div class="card-header">{{ 'label.total_games_played'|trans }}</div>
-                            <h2 class="card-body text-center">40</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header">{{ 'label.total_gauntlet_played'|trans }}</div>
-                            <h2 class="card-body text-center">12</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="card">
-                            <div class="card-header">{{ 'label.winrate'|trans }}</div>
-                            <h2 class="card-body text-center">58,65%</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header">{{ 'label.score'|trans }}</div>
-                            <h2 class="card-body text-center">28 - 12</h2>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                {#<div class="row">#}
+                <div class="dashboard-content">
+                    {{ include('dashboard/stats.html.twig') }}
+
+                    {#<div class="row">#}
                     {#<h3>Vue d'ensemble</h3>#}
                     {#<canvas id="myChart"></canvas>#}
-                {#</div>#}
+                    {#</div>#}
+                </div>
             {% endblock %}
         </div>
     </div>
@@ -102,15 +79,20 @@
             {% endfor %}
             {% endfor %}
 
-            $('#dateDebut').datetimepicker({
+            $('#txtStartDate').datetimepicker({
                 locale: '{{ app.request.locale }}',
                 format: "YYYY-MM-DD"
             });
 
-            $('#dateFin').datetimepicker({
+            $('#txtEndDate').datetimepicker({
                 locale: '{{ app.request.locale }}',
                 format: "YYYY-MM-DD"
             });
+
+            $('#btn-today-stats').click(showTodayStats)
+            $('#btn-week-stats').click(showWeekStats)
+            $('#btn-month-stats').click(showMonthStats)
+            $('#btn-custom-date').click(showCustomDatesStats)
 
             // var ctx = document.getElementById("myChart");
             // var myChart = new Chart(ctx, {

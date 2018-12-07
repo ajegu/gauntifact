@@ -39,6 +39,9 @@ global.Ladda = Ladda
 
 require('chart.js')
 
+import moment from 'moment'
+global.moment = moment
+
 const routes = require('../../public/js/fos_js_routes.json');
 import Routing from '../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js'
 
@@ -50,4 +53,6 @@ global.Utils = Utils
 
 require('./dashboard/gauntlet')
 require('./dashboard/game')
+require('./dashboard/dashboard')
 
+global.spinner = `<div class="lds-facebook d-block mx-auto"><div></div><div></div><div></div></div>`

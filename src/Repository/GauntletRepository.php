@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Gauntlet;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,29 @@ class GauntletRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Gauntlet::class);
+    }
+
+    /**
+     * @param User $user
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function countGauntletByDates(User $user, \DateTime $startDate, \DateTime $endDate)
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->select('COUNT(g.id) as countGauntlet')
+            ->andWhere('g.playedAt >= :startDate')
+            ->andWhere('g.playedAt < :endDate')
+            ->andWhere('g.user = :user')
+            ->setParameters([
+                'user' => $user->getId(),
+                'startDate' => $startDate->format('Y-m-d 00:00:00'),
+                'endDate' => $endDate->format('Y-m-d 23:59:59')
+            ]);
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     // /**

@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header">{{ 'label.total_games_played'|trans }}</div>
+            <h2 class="card-body text-center">{{ totalGames }}</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">{{ 'label.total_gauntlet_played'|trans }}</div>
+            <h2 class="card-body text-center">{{ totalGauntlets }}</h2>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card">
+            <div class="card-header">{{ 'label.winrate'|trans }}</div>
+            <h2 class="card-body text-center">{{ (totalGamesWon * 100 / totalGames)|round(2) }}%</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">{{ 'label.score'|trans }}</div>
+            <h2 class="card-body text-center"><span class="text-success">{{ totalGamesWon }}</span> - <span class="text-danger">{{ totalGamesLost }}</span></h2>
+        </div>
+    </div>
+</div>
+<hr>
