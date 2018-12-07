@@ -33,6 +33,16 @@ label.game_draw: Draw
 label.game: Game
 label.game_played_at: Played at
 label.gauntletplayed_at: Played at
+label.today: Today
+label.this_week: This week
+label.this_month: This month
+label.custom_dates: Custom dates
+label.start_date: Start date
+label.end_date: End date
+label.total_games_played: Total games played
+label.total_gauntlet_played: Total gauntlets played
+label.winrate: Winrate
+label.score: Sore
 
 
 btn.login: Sign in

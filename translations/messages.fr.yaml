@@ -35,7 +35,16 @@ label.game_draw: Match nul
 label.game: Game
 label.game_played_at: Jouée le
 label.gauntlet_played_at: Joué le
-
+label.today: Aujourd'hui
+label.this_week: Cette semaine
+label.this_month: Ce mois-ci
+label.custom_dates: Dates personnalisées
+label.start_date: Date de début
+label.end_date: Date de fin
+label.total_games_played: Total de games jouées
+label.total_gauntlet_played: Total d'affrontements jouées
+label.winrate: Taux de réussite
+label.score: Sore
 
 btn.login: Se connecter
 btn.logout: Se déconnecter

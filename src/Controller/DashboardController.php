@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\GauntletService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
@@ -26,8 +27,12 @@ class DashboardController extends AbstractController
     /**
      * @Route("/dashboard", name="app_dashboard")
      */
-    public function index(GauntletService $gauntletService)
+    public function index(Request $request, GauntletService $gauntletService)
     {
+        $startDate = $request->get('startDate', (new \DateTime())->format('Y-m-d'));
+        $endDate = $request->get('endDate', (new \DateTime())->format('Y-m-d'));
+        
+
         return $this->render('dashboard/index.html.twig');
     }
 }

@@ -13,44 +13,75 @@
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-outline-secondary active">Ajourd'hui</button>
-                        <button type="button" class="btn btn-outline-secondary">Cette semaine</button>
-                        <button type="button" class="btn btn-outline-secondary">Ce mois-ci</button>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-secondary active">{{ 'label.today'|trans }}</button>
+                        <button type="button" class="btn btn-outline-secondary">{{ 'label.this_week'|trans }}</button>
+                        <button type="button" class="btn btn-outline-secondary">{{ 'label.this_month'|trans }}</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+                            {{ 'label.custom_dates'|trans }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <form class="px-4 py-3">
+                                <div class="form-group">
+                                    <label for="dateDebut">Date début</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dateDebut">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dateFin">Date fin</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="dateFin">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-primary">{{ 'btn.submit'|trans }}</button>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-2">
                         <div class="card">
-                            <div class="card-header">Total Games</div>
+                            <div class="card-header">{{ 'label.total_games_played'|trans }}</div>
                             <h2 class="card-body text-center">40</h2>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="card">
-                            <div class="card-header">Total Affrontements</div>
+                            <div class="card-header">{{ 'label.total_gauntlet_played'|trans }}</div>
                             <h2 class="card-body text-center">12</h2>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="card">
-                            <div class="card-header">Winrate</div>
+                            <div class="card-header">{{ 'label.winrate'|trans }}</div>
                             <h2 class="card-body text-center">58,65%</h2>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">
-                            <div class="card-header">Score</div>
+                            <div class="card-header">{{ 'label.score'|trans }}</div>
                             <h2 class="card-body text-center">28 - 12</h2>
                         </div>
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <h3>Vue d'ensemble</h3>
-                    <canvas id="myChart"></canvas>
-                </div>
+                {#<div class="row">#}
+                    {#<h3>Vue d'ensemble</h3>#}
+                    {#<canvas id="myChart"></canvas>#}
+                {#</div>#}
             {% endblock %}
         </div>
     </div>
@@ -58,7 +89,7 @@
 
 {% block javascripts %}
     <script type="application/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#btn-show-add-gauntlet').click(showAddGauntlet)
 
             // On affiche avec Notify, les flash messages
@@ -71,44 +102,53 @@
             {% endfor %}
             {% endfor %}
 
-
-            var ctx = document.getElementById("myChart");
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
-                }
+            $('#dateDebut').datetimepicker({
+                locale: '{{ app.request.locale }}',
+                format: "YYYY-MM-DD"
             });
+
+            $('#dateFin').datetimepicker({
+                locale: '{{ app.request.locale }}',
+                format: "YYYY-MM-DD"
+            });
+
+            // var ctx = document.getElementById("myChart");
+            // var myChart = new Chart(ctx, {
+            //     type: 'bar',
+            //     data: {
+            //         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            //         datasets: [{
+            //             label: '# of Votes',
+            //             data: [12, 19, 3, 5, 2, 3],
+            //             backgroundColor: [
+            //                 'rgba(255, 99, 132, 0.2)',
+            //                 'rgba(54, 162, 235, 0.2)',
+            //                 'rgba(255, 206, 86, 0.2)',
+            //                 'rgba(75, 192, 192, 0.2)',
+            //                 'rgba(153, 102, 255, 0.2)',
+            //                 'rgba(255, 159, 64, 0.2)'
+            //             ],
+            //             borderColor: [
+            //                 'rgba(255,99,132,1)',
+            //                 'rgba(54, 162, 235, 1)',
+            //                 'rgba(255, 206, 86, 1)',
+            //                 'rgba(75, 192, 192, 1)',
+            //                 'rgba(153, 102, 255, 1)',
+            //                 'rgba(255, 159, 64, 1)'
+            //             ],
+            //             borderWidth: 1
+            //         }]
+            //     },
+            //     options: {
+            //         scales: {
+            //             yAxes: [{
+            //                 ticks: {
+            //                     beginAtZero: true
+            //                 }
+            //             }]
+            //         }
+            //     }
+            // });
         })
     </script>
 
