@@ -9,8 +9,6 @@ title.add_game: Ajout d'une game
 title.edit_game: Modification d'une game
 title.delete_game: Suppression d'une game
 
-
-
 menu.dashboard: Tableau de bord
 menu.dashboard.gauntlet_history: Historique des affrontements
 menu.dashboard.gauntlet_show_current: Voir l'affrontement en cours
@@ -45,6 +43,9 @@ label.total_games_played: Total de games jouées
 label.total_gauntlet_played: Total d'affrontements jouées
 label.winrate: Taux de réussite
 label.score: Sore
+label.all_gauntlet_types: Tous types d'affrontement
+label.total: Total
+label.game_chart: Vue d'ensemble des games
 
 btn.login: Se connecter
 btn.logout: Se déconnecter

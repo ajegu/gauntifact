@@ -52,7 +52,7 @@ class DashboardController extends AbstractController
                 ->find($gauntletTypeId);
         }
 
-        $stats = $this->calculerStats($startDate, $endDate, $gauntletType);
+        $stats = $this->calculerStats($request->getLocale(), $startDate, $endDate, $gauntletType);
 
         $gauntletTypes = $this->getDoctrine()->getRepository(GauntletType::class)
             ->findAll();
@@ -67,10 +67,11 @@ class DashboardController extends AbstractController
      * @param \DateTime|null $startDate
      * @param \DateTime|null $endDate
      * @param GauntletType|null $gauntletType
+     * @param string $locale
      * @return array
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    private function calculerStats(\DateTime $startDate = null, \DateTime $endDate = null, GauntletType $gauntletType = null)
+    private function calculerStats(string $locale, \DateTime $startDate = null, \DateTime $endDate = null, GauntletType $gauntletType = null)
     {
         $startDate = $startDate === null ? new \DateTime() : $startDate;
         $endDate = $endDate === null ? new \DateTime() : $endDate;
@@ -87,12 +88,141 @@ class DashboardController extends AbstractController
         $totalGamesLost = $this->getDoctrine()->getRepository(Game::class)
             ->countGamesByDates($this->getUser(), $startDate, $endDate, [Game::STATUS_DRAW, Game::STATUS_LOSE], $gauntletType);
 
+        $games = $this->getDoctrine()->getRepository(Game::class)
+            ->getGamesByDates($this->getUser(), $startDate, $endDate, null, $gauntletType);
+
+
+        $int = $startDate->diff($endDate);
+        $days = (int) $int->format('%a');
+
+        if ($days === 0) {
+            $chartGames = $this->generateChartForHours($games);
+        } else if ($days > 0 && $days < 31) {
+            $chartGames = $this->generateChartForDays($games, $startDate, $endDate, $locale);
+        } else {
+            $chartGames = $this->generateChartForMonths($games, $startDate, $endDate, $locale);
+        }
+
         return [
             'totalGauntlets' => $totalGauntlets,
             'totalGames' => $totalGames,
             'totalGamesWon' => $totalGamesWon,
-            'totalGamesLost' => $totalGamesLost
+            'totalGamesLost' => $totalGamesLost,
+            'chartGames' => $chartGames
         ];
+    }
+
+    /**
+     * @param array $games
+     * @return array
+     */
+    private function generateChartForHours(array $games): array
+    {
+        $chartGames = [];
+        for ($i = 0; $i < 24; $i++) {
+            $ind = str_pad($i, 2, '0', STR_PAD_LEFT);
+            $chartGames[$ind] = [
+                'total' => 0,
+                'win' => 0,
+                'label' => $ind . 'h'
+            ];
+        }
+
+        foreach ($games as $game) {
+            $ind = $game->getPlayedAt()->format('H');
+            $chartGames[$ind]['total']++;
+            if ($game->getStatus() === Game::STATUS_WIN) {
+                $chartGames[$ind]['win']++;
+            }
+        }
+
+        return $chartGames;
+    }
+
+    /**
+     * @param Game[] $games
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @param string $locale
+     * @return array
+     * @throws \Exception
+     */
+    private function generateChartForDays(array $games, \DateTime $startDate, \DateTime $endDate, string $locale): array
+    {
+        $dateFormatter = new \IntlDateFormatter($locale, \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
+
+        $chartGames = [];
+        $currentDate = $startDate;
+        do {
+            // On récupère le nombre de jour entre la date courante et la date de fin
+            $int = $currentDate->diff($endDate);
+            $days = $int->format('%a');
+
+            $label = $dateFormatter->format($currentDate);
+            $chartGames[$label] = [
+                'label' => $label,
+                'total' => 0,
+                'win' => 0
+            ];
+
+            // On incrémente la date courante
+            $int = new \DateInterval('P1D');
+            $currentDate->add($int);
+        } while ($days > 0 && $currentDate <= $endDate);
+
+        foreach ($games as $game) {
+            $ind = $dateFormatter->format($game->getPlayedAt());
+            $chartGames[$ind]['total']++;
+            if ($game->getStatus() === Game::STATUS_WIN) {
+                $chartGames[$ind]['win']++;
+            }
+        }
+
+        return $chartGames;
+    }
+
+    /**
+     * @param Game[] $games
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @param string $locale
+     * @return array
+     * @throws \Exception
+     */
+    private function generateChartForMonths(array $games, \DateTime $startDate, \DateTime $endDate, string $locale): array
+    {
+        $dateFormatter = new \IntlDateFormatter($locale, \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
+        $dateFormatter->setPattern('MMMM');
+
+        $chartGames = [];
+        $currentDate = $startDate;
+
+        do {
+            // On récupère le nombre de jour entre la date courante et la date de fin
+            $int = $currentDate->diff($endDate);
+            $days = $int->format('%a');
+
+            $label = ucfirst($dateFormatter->format($currentDate));
+            $chartGames[$label] = [
+                'label' => $label,
+                'total' => 0,
+                'win' => 0
+            ];
+
+            // On incrémente la date courante
+            $int = new \DateInterval('P1M');
+            $currentDate->add($int);
+        } while ($days > 0 && $currentDate <= $endDate);
+
+        foreach ($games as $game) {
+            $ind = ucfirst($dateFormatter->format($game->getPlayedAt()));
+            $chartGames[$ind]['total']++;
+            if ($game->getStatus() === Game::STATUS_WIN) {
+                $chartGames[$ind]['win']++;
+            }
+        }
+
+        return $chartGames;
     }
 
     /**

@@ -59,6 +59,41 @@ class GameRepository extends ServiceEntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * @param User $user
+     * @param \DateTime $startDate
+     * @param \DateTime $endDate
+     * @param array|null $statuses
+     * @param GauntletType|null $gauntletType
+     * @return Game[]
+     */
+    public function getGamesByDates(User $user, \DateTime $startDate, \DateTime $endDate, array $statuses = null, GauntletType $gauntletType = null)
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->innerJoin(Gauntlet::class, 'ga')
+            ->andWhere('g.gauntlet = ga.id')
+            ->andWhere('ga.user = :user')
+            ->andWhere('g.playedAt >= :startDate')
+            ->andWhere('g.playedAt < :endDate')
+            ->setParameters([
+                'user' => $user->getId(),
+                'startDate' => $startDate->format('Y-m-d 00:00:00'),
+                'endDate' => $endDate->format('Y-m-d 23:59:59'),
+            ]);
+
+        if ($statuses !== null) {
+            $qb->andWhere('g.status IN (:statuses)')
+                ->setParameter('statuses', $statuses);
+        }
+
+        if ($gauntletType !== null) {
+            $qb->andWhere('ga.type = :gauntletType')
+                ->setParameter('gauntletType', $gauntletType);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */

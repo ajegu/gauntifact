@@ -77,6 +77,11 @@ function getCurrentGauntletType()
 {
     const currentUrl = window.location.href
     const values = currentUrl.split('?')
+
+    if (values[1] === undefined) {
+        return null;
+    }
+
     const paramString = values[1]
     const params = paramString.split('&')
 
@@ -102,27 +107,32 @@ window.showGauntletTypeStats = function(e)
 {
     const currentUrl = window.location.href
     const values = currentUrl.split('?')
-    const paramString = values[1]
-    const params = paramString.split('&')
 
     let startDate = null;
     let endDate = null;
     let link = null;
-    params.forEach(function(str) {
-        const param = str.split('=');
 
-        if (param[0] === 'startDate') {
-            startDate = param[1]
-        }
+    if (values[1] !== undefined) {
+        const paramString = values[1]
+        const params = paramString.split('&')
 
-        if (param[0] === 'endDate') {
-            endDate = param[1]
-        }
 
-        if (param[0] === 'link') {
-            link = param[1]
-        }
-    })
+        params.forEach(function(str) {
+            const param = str.split('=');
+
+            if (param[0] === 'startDate') {
+                startDate = param[1]
+            }
+
+            if (param[0] === 'endDate') {
+                endDate = param[1]
+            }
+
+            if (param[0] === 'link') {
+                link = param[1]
+            }
+        })
+    }
 
     const url = Routing.generate('app_dashboard', {
         'startDate': startDate,

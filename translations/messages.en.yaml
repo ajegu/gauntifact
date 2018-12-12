@@ -43,7 +43,9 @@ label.total_games_played: Total games played
 label.total_gauntlet_played: Total gauntlets played
 label.winrate: Winrate
 label.score: Sore
-
+label.all_gauntlet_types: All gauntlet types
+label.total: Total
+label.game_chart: Global games view
 
 btn.login: Sign in
 btn.logout: Sign out

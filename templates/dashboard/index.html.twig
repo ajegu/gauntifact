@@ -12,7 +12,7 @@
                 <div class="navbar">
                     <ul class="navbar-nav mr-auto">
                         <select class="form-control" id="sctGauntletType">
-                            <option value="" {% if app.request.get('gauntletType') is null %} selected {% endif %}>Tous types d'affrontement</option>
+                            <option value="" {% if app.request.get('gauntletType') is null %} selected {% endif %}>{{ 'label.all_gauntlet_types'|trans }}</option>
                             {% for gauntletType in gauntletTypes %}
                                 <option value="{{ gauntletType.id }}" {% if app.request.get('gauntletType') == gauntletType.id %} selected {% endif %}>{{ gauntletType.name }}</option>
                             {% endfor %}
@@ -29,7 +29,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <form class="px-4 py-3">
                                 <div class="form-group">
-                                    <label for="txtStartDate">Date début</label>
+                                    <label for="txtStartDate">{{ 'label.start_date'|trans }}</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="txtStartDate" value="{{ app.request.get('startDate') }}">
                                         <div class="input-group-append">
@@ -40,7 +40,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="txtEndDate">Date fin</label>
+                                    <label for="txtEndDate">{{ 'label.end_date'|trans }}</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="txtEndDate" value="{{ app.request.get('endDate') }}">
                                         <div class="input-group-append">
@@ -66,8 +66,8 @@
                     } %}
 
                     <div class="row">
-                        <h3>Vue d'ensemble</h3>
-                        <canvas id="myChart"></canvas>
+                        <h3>{{ 'label.game_chart'|trans }}</h3>
+                        <canvas id="gameChart" height="100px"></canvas>
                     </div>
 
                 </div>
@@ -113,40 +113,62 @@
             $('#btn-custom-date').click(showCustomDatesStats)
             $('#sctGauntletType').change(showGauntletTypeStats)
 
-            var ctx = document.getElementById("myChart");
-            var myChart = new Chart(ctx, {
+            var ctx = document.getElementById("gameChart");
+            var gameChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                    labels: [
+                        {% for chartGame in stats['chartGames'] %}
+                            '{{ chartGame.label }}',
+                        {% endfor %}
+                    ],
                     datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
+                        label: '{{ 'label.total_games_played'|trans }}',
+                        data: [
+                            {% for chartGame in stats['chartGames'] %}
+                            '{{ chartGame.total }}',
+                            {% endfor %}
+                        ],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
+                            {% for chartGame in stats['chartGames'] %}
+                            'rgba(76, 112, 255, 0.2)',
+                            {% endfor %}
                         ],
                         borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
+                            {% for chartGame in stats['chartGames'] %}
+                            'rgba(95, 40, 204, 1)',
+                            {% endfor %}
+                        ],
+                        borderWidth: 1
+                    },{
+                        label: '{{ 'label.game_win'|trans }}',
+                        data: [
+                            {% for chartGame in stats['chartGames'] %}
+                            '{{ chartGame.win }}',
+                            {% endfor %}
+                        ],
+                        backgroundColor: [
+                            {% for chartGame in stats['chartGames'] %}
+                            'rgba(81, 255, 97, 1)',
+                            {% endfor %}
                         ],
                         borderWidth: 1
                     }]
                 },
                 options: {
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
                     scales: {
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true
                             }
-                        }]
+                        }],
+                        xAxes: [{
+                            stacked: true,
+                        }],
                     }
                 }
             });
