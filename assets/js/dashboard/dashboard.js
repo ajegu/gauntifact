@@ -1,100 +1,56 @@
-function removeActive(e)
-{
-    $(e.currentTarget).parent().children('button').removeClass('active');
-    $(e.currentTarget).addClass('active')
-}
-
 /**
  * Affiche les statistiques du jour
  */
-window.showTodayStats = function(e)
+window.showTodayStats = function()
 {
-    removeActive(e)
-
-    const l = Ladda.create( e.currentTarget )
-    l.start()
-
-    $('.dashboard-content').html(spinner)
-
-    const url = Routing.generate('app_dashboard_stats')
-
-    $.ajax(url, {
-        success: function(data) {
-            l.stop()
-            $('.dashboard-content').html(data)
-        },
-        error: function() {
-            Utils.errorNotify(l)
-        }
+    const url = Routing.generate('app_dashboard', {
+        link: 'today',
+        'gauntletType': getCurrentGauntletType()
     })
+
+    Utils.redirect(url)
 }
 
 /**
  * Affiche les statistiques de la semaine
  */
-window.showWeekStats = function(e)
+window.showWeekStats = function()
 {
-    removeActive(e)
-
-    const l = Ladda.create( e.currentTarget )
-    l.start()
-
-    $('.dashboard-content').html(spinner)
-
     const startDate = moment().startOf('isoWeek').format('YYYY-MM-DD')
     const endDate = moment().endOf('isoWeek').format(('YYYY-MM-DD'))
 
-    const url = Routing.generate('app_dashboard_stats', {
+    const url = Routing.generate('app_dashboard', {
         'startDate': startDate,
-        'endDate': endDate
+        'endDate': endDate,
+        'link': 'week',
+        'gauntletType': getCurrentGauntletType()
     })
 
-    $.ajax(url, {
-        success: function(data) {
-            l.stop()
-            $('.dashboard-content').html(data)
-        },
-        error: function() {
-            Utils.errorNotify(l)
-        }
-    })
+    Utils.redirect(url)
 }
 
 /**
  * Affiche les statistiques du mois
  */
-window.showMonthStats = function(e)
+window.showMonthStats = function()
 {
-    removeActive(e)
-
-    const l = Ladda.create( e.currentTarget )
-    l.start()
-
-    $('.dashboard-content').html(spinner)
-
     const startDate = moment().startOf('month').format('YYYY-MM-DD')
     const endDate = moment().endOf('month').format(('YYYY-MM-DD'))
 
-    const url = Routing.generate('app_dashboard_stats', {
+    const url = Routing.generate('app_dashboard', {
         'startDate': startDate,
-        'endDate': endDate
+        'endDate': endDate,
+        'link': 'month',
+        'gauntletType': getCurrentGauntletType()
     })
 
-    $.ajax(url, {
-        success: function(data) {
-            l.stop()
-            $('.dashboard-content').html(data)
-        },
-        error: function() {
-            Utils.errorNotify(l)
-        }
-    })
+    Utils.redirect(url)
 }
 
 /**
  * Affiche les statistiques selon une plage de dates
  */
-window.showCustomDatesStats = function(e)
+window.showCustomDatesStats = function()
 {
     const startDate = $('#txtStartDate').val();
     const endDate = $('#txtEndDate').val();
@@ -103,26 +59,78 @@ window.showCustomDatesStats = function(e)
         return;
     }
 
-    $('#btn-show-custom-stats').parent().children('button').removeClass('active');
-    $('#btn-show-custom-stats').addClass('active')
-
-    const l = Ladda.create( e.currentTarget )
-    l.start()
-
-    $('.dashboard-content').html(spinner)
-
-    const url = Routing.generate('app_dashboard_stats', {
+    const url = Routing.generate('app_dashboard', {
         'startDate': startDate,
-        'endDate': endDate
+        'endDate': endDate,
+        'link': 'customDates',
+        'gauntletType': getCurrentGauntletType()
     })
 
-    $.ajax(url, {
-        success: function(data) {
-            l.stop()
-            $('.dashboard-content').html(data)
-        },
-        error: function() {
-            Utils.errorNotify(l)
+    Utils.redirect(url)
+}
+
+/**
+ * Retourne l'ID du type d'affrontement en paramètre de l'url
+ * @returns {*}
+ */
+function getCurrentGauntletType()
+{
+    const currentUrl = window.location.href
+    const values = currentUrl.split('?')
+    const paramString = values[1]
+    const params = paramString.split('&')
+
+    let gauntletType = null;
+
+    params.forEach(function(str) {
+        const param = str.split('=');
+
+        if (param[0] === 'gauntletType') {
+            gauntletType = param[1]
         }
     })
+
+    return gauntletType
+}
+
+/**
+ * Affiche les stats pour un type d'affrontement
+ *
+ * @param e
+ */
+window.showGauntletTypeStats = function(e)
+{
+    const currentUrl = window.location.href
+    const values = currentUrl.split('?')
+    const paramString = values[1]
+    const params = paramString.split('&')
+
+    let startDate = null;
+    let endDate = null;
+    let link = null;
+    params.forEach(function(str) {
+        const param = str.split('=');
+
+        if (param[0] === 'startDate') {
+            startDate = param[1]
+        }
+
+        if (param[0] === 'endDate') {
+            endDate = param[1]
+        }
+
+        if (param[0] === 'link') {
+            link = param[1]
+        }
+    })
+
+    const url = Routing.generate('app_dashboard', {
+        'startDate': startDate,
+        'endDate': endDate,
+        'link': link,
+        'gauntletType': $(e.currentTarget).val()
+    })
+
+    Utils.redirect(url)
+
 }

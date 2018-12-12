@@ -154,6 +154,9 @@ export function submitFormModal(config)
 }
 
 export function redirect (url) {
+
+    $('.body-content').html(spinner)
+
     const ua        = navigator.userAgent.toLowerCase(),
         isIE      = ua.indexOf('msie') !== -1,
         version   = parseInt(ua.substr(4, 2), 10);

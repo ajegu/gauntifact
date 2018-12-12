@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Gauntlet;
+use App\Entity\GauntletType;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -24,10 +25,11 @@ class GauntletRepository extends ServiceEntityRepository
      * @param User $user
      * @param \DateTime $startDate
      * @param \DateTime $endDate
+     * @param GauntletType|null $gauntletType
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function countGauntletByDates(User $user, \DateTime $startDate, \DateTime $endDate)
+    public function countGauntletByDates(User $user, \DateTime $startDate, \DateTime $endDate, GauntletType $gauntletType = null)
     {
         $qb = $this->createQueryBuilder('g')
             ->select('COUNT(g.id) as countGauntlet')
@@ -39,6 +41,11 @@ class GauntletRepository extends ServiceEntityRepository
                 'startDate' => $startDate->format('Y-m-d 00:00:00'),
                 'endDate' => $endDate->format('Y-m-d 23:59:59')
             ]);
+
+        if ($gauntletType !== null) {
+            $qb->andWhere('g.type = :gauntletType')
+                ->setParameter('gauntletType', $gauntletType);
+        }
 
         return $qb->getQuery()->getSingleScalarResult();
     }

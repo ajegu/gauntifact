@@ -9,7 +9,9 @@
     </head>
     <body>
         {% include 'menu.html.twig' %}
-        {% block body %}{% endblock %}
+        <div class="body-content">
+            {% block body %}{% endblock %}
+        </div>
 
         {{ encore_entry_script_tags('app') }}
 

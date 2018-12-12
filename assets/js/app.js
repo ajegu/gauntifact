@@ -56,3 +56,7 @@ require('./dashboard/game')
 require('./dashboard/dashboard')
 
 global.spinner = `<div class="lds-facebook d-block mx-auto"><div></div><div></div><div></div></div>`
+
+$('a').click(function() {
+    $('.body-content').html(spinner)
+})

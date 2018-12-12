@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Game;
 use App\Entity\Gauntlet;
+use App\Entity\GauntletType;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -26,10 +27,11 @@ class GameRepository extends ServiceEntityRepository
      * @param \DateTime $startDate
      * @param \DateTime $endDate
      * @param array|null $statuses
+     * @param GauntletType|null $gauntletType
      * @return mixed
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function countGamesByDates(User $user, \DateTime $startDate, \DateTime $endDate, array $statuses = null)
+    public function countGamesByDates(User $user, \DateTime $startDate, \DateTime $endDate, array $statuses = null, GauntletType $gauntletType = null)
     {
         $qb = $this->createQueryBuilder('g')
             ->select('COUNT(g.id)')
@@ -41,12 +43,17 @@ class GameRepository extends ServiceEntityRepository
             ->setParameters([
                 'user' => $user->getId(),
                 'startDate' => $startDate->format('Y-m-d 00:00:00'),
-                'endDate' => $endDate->format('Y-m-d 23:59:59')
+                'endDate' => $endDate->format('Y-m-d 23:59:59'),
             ]);
 
         if ($statuses !== null) {
             $qb->andWhere('g.status IN (:statuses)')
                 ->setParameter('statuses', $statuses);
+        }
+
+        if ($gauntletType !== null) {
+            $qb->andWhere('ga.type = :gauntletType')
+                ->setParameter('gauntletType', $gauntletType);
         }
 
         return $qb->getQuery()->getSingleScalarResult();

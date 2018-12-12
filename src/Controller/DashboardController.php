@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\Gauntlet;
+use App\Entity\GauntletType;
 use App\Service\GauntletService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,50 +28,15 @@ class DashboardController extends AbstractController
 
 
     /**
-     * @param Request $request
-     * @param GauntletService $gauntletService
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
      *
      * @Route("/dashboard", name="app_dashboard")
      */
-    public function index(Request $request, GauntletService $gauntletService)
+    public function index(Request $request)
     {
         $startDate = new \DateTime();
         $endDate = new \DateTime();
-
-        $totalGauntlets = $this->getDoctrine()->getRepository(Gauntlet::class)
-            ->countGauntletByDates($this->getUser(), $startDate, $endDate);
-
-        $totalGames = $this->getDoctrine()->getRepository(Game::class)
-            ->countGamesByDates($this->getUser(), $startDate, $endDate);
-
-        $totalGamesWon = $this->getDoctrine()->getRepository(Game::class)
-            ->countGamesByDates($this->getUser(), $startDate, $endDate, [Game::STATUS_WIN]);
-
-        $totalGamesLost = $this->getDoctrine()->getRepository(Game::class)
-            ->countGamesByDates($this->getUser(), $startDate, $endDate, [Game::STATUS_DRAW, Game::STATUS_LOSE]);
-
-        return $this->render('dashboard/index.html.twig', [
-            'totalGauntlets' => $totalGauntlets,
-            'totalGames' => $totalGames,
-            'totalGamesWon' => $totalGamesWon,
-            'totalGamesLost' => $totalGamesLost,
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @param GauntletService $gauntletService
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     *
-     * @Route("/dashboard-stats", name="app_dashboard_stats")
-     */
-    public function stats(Request $request, GauntletService $gauntletService)
-    {
-        $startDate = new \DateTime();
-        $endDate = new \DateTime();
+        $gauntletTypeId = $request->get('gauntletType');
 
         if ($request->get('startDate') !== null) {
             $startDate = new \DateTime($request->get('startDate'));
@@ -80,23 +46,82 @@ class DashboardController extends AbstractController
             $endDate = new \DateTime($request->get('endDate'));
         }
 
+        $gauntletType = null;
+        if ($gauntletTypeId !== null) {
+            $gauntletType = $this->getDoctrine()->getRepository(GauntletType::class)
+                ->find($gauntletTypeId);
+        }
+
+        $stats = $this->calculerStats($startDate, $endDate, $gauntletType);
+
+        $gauntletTypes = $this->getDoctrine()->getRepository(GauntletType::class)
+            ->findAll();
+
+        return $this->render('dashboard/index.html.twig', [
+            'stats' => $stats,
+            'gauntletTypes' => $gauntletTypes
+        ]);
+    }
+
+    /**
+     * @param \DateTime|null $startDate
+     * @param \DateTime|null $endDate
+     * @param GauntletType|null $gauntletType
+     * @return array
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    private function calculerStats(\DateTime $startDate = null, \DateTime $endDate = null, GauntletType $gauntletType = null)
+    {
+        $startDate = $startDate === null ? new \DateTime() : $startDate;
+        $endDate = $endDate === null ? new \DateTime() : $endDate;
+
         $totalGauntlets = $this->getDoctrine()->getRepository(Gauntlet::class)
-            ->countGauntletByDates($this->getUser(), $startDate, $endDate);
+            ->countGauntletByDates($this->getUser(), $startDate, $endDate, $gauntletType);
 
         $totalGames = $this->getDoctrine()->getRepository(Game::class)
-            ->countGamesByDates($this->getUser(), $startDate, $endDate);
+            ->countGamesByDates($this->getUser(), $startDate, $endDate, null, $gauntletType);
 
         $totalGamesWon = $this->getDoctrine()->getRepository(Game::class)
-            ->countGamesByDates($this->getUser(), $startDate, $endDate, [Game::STATUS_WIN]);
+            ->countGamesByDates($this->getUser(), $startDate, $endDate, [Game::STATUS_WIN], $gauntletType);
 
         $totalGamesLost = $this->getDoctrine()->getRepository(Game::class)
-            ->countGamesByDates($this->getUser(), $startDate, $endDate, [Game::STATUS_DRAW, Game::STATUS_LOSE]);
+            ->countGamesByDates($this->getUser(), $startDate, $endDate, [Game::STATUS_DRAW, Game::STATUS_LOSE], $gauntletType);
 
-        return $this->render('dashboard/stats.html.twig', [
+        return [
             'totalGauntlets' => $totalGauntlets,
             'totalGames' => $totalGames,
             'totalGamesWon' => $totalGamesWon,
-            'totalGamesLost' => $totalGamesLost,
-        ]);
+            'totalGamesLost' => $totalGamesLost
+        ];
     }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @Route("/dashboard-stats", name="app_dashboard_stats")
+     */
+//    public function stats(Request $request)
+//    {
+//        $startDate = new \DateTime();
+//        $endDate = new \DateTime();
+//
+//        if ($request->get('startDate') !== null) {
+//            $startDate = new \DateTime($request->get('startDate'));
+//        }
+//
+//        if ($request->get('endDate') !== null) {
+//            $endDate = new \DateTime($request->get('endDate'));
+//        }
+//
+//        $stats = $this->calculerStats($startDate, $endDate);
+//
+//        return $this->render('dashboard/stats.html.twig', [
+//            'totalGauntlets' => $stats['totalGauntlets'],
+//            'totalGames' => $stats['totalGames'],
+//            'totalGamesWon' => $stats['totalGamesWon'],
+//            'totalGamesLost' => $stats['totalGamesLost'],
+//        ]);
+//    }
 }
